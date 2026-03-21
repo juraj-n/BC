@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>Nahraj CSV súbor</h2>
+<form action="{{ url_for('main.spectra') }}" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".csv" required>
+    <button type="submit">Spracovať</button>
+</form>
+
+{% endblock %}
