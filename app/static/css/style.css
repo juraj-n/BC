@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 15%;
+}
+
+.csv-upload-btn input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.csv-upload-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
