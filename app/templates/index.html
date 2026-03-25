@@ -12,10 +12,20 @@
     <div class="app-container">
         
         <aside class="sidebar">
-            <h2> VÝBER DÁT </h2>
-            
-            <h2> VZORKY </h2>
+            <div class="side-section">
+                <h2> VÝBER DÁT </h2>
+                <div class="side-btn-group">
+                    <label for="file-input"> Nahrať CSV Súbory </label>
+                    <input type="file" id="file-input" hidden>
 
+                    <label for="db-input"> Použiť Databázu </label>
+                    <input hidden>
+                </div>
+            </div>
+            <div class="side-section">
+                <h2> VZORKY </h2>
+            </div>
+            <button> SPUSTIŤ ANALÝZU </button>
         </aside>
         
         <main class="content">
