@@ -4,6 +4,7 @@
     --accent-purple: #7e57c2;
     --text-dark: #333;
     --bg-light: #f8f9fa;
+    --lime-green: #4caf50;
 }
 
 body {
@@ -21,7 +22,6 @@ body {
 .sidebar {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
     flex: 0 0 15%;
     max-width: 15%;
@@ -37,9 +37,60 @@ body {
 }
 
 /* Sidebar Components */
+.side-analyse-btn {
+    height: 30px;
+    color: white;
+    background-color: var(--lime-green);
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+}
+
 .side-btn-group {
     display: flex;
     flex-direction: row;
+    width: 100%;
+    gap: 10px;
+}
+
+.side-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    padding: 0;
+    border: none;
+
+    background-color: var(--accent-purple);
+    color: white;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.side-upload:hover,
+.side-upload:active {
+    opacity: 0.8;
+}
+
+.side-upload-form {
+    flex: 1;
+}
+
+.side-upload-form label {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+.side-upload-btn {
+    flex: 1;
 }
 
 /* Main Content */

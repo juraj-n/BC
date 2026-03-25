@@ -12,20 +12,30 @@
     <div class="app-container">
         
         <aside class="sidebar">
+            <button class="side-analyse-btn"> Spustiť Analýzu </button>
+
             <div class="side-section">
                 <h2> VÝBER DÁT </h2>
                 <div class="side-btn-group">
-                    <label for="file-input"> Nahrať CSV Súbory </label>
-                    <input type="file" id="file-input" hidden>
+                    <form class="side-upload side-upload-form" action="{{ url_for('main.spectra') }}" method="POST" enctype="multipart/form-data">
+                        <label for="file-input"> Nahrať CSV Súbory </label>
+                        <input type="file" id="file-input" name="files" hidden onchange="this.form.submit()">
+                    </form>
 
-                    <label for="db-input"> Použiť Databázu </label>
-                    <input hidden>
+                    <button class="side-upload side-upload-btn"> Použiť Databázu </button>
                 </div>
             </div>
+
             <div class="side-section">
                 <h2> VZORKY </h2>
+                <div class="spectra-list">
+                    {% for file in files %}
+                        <p style="color: white;">
+                            {{ file.filename }}
+                        </p>
+                    {% endfor %}
+                </div>
             </div>
-            <button> SPUSTIŤ ANALÝZU </button>
         </aside>
         
         <main class="content">
