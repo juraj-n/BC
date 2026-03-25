@@ -7,6 +7,8 @@
     <title>Porovnávanie spektier</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
     <div class="app-container">
@@ -29,9 +31,9 @@
             <div class="side-section">
                 <h2> VZORKY </h2>
                 <div class="spectra-list">
-                    {% for file in files %}
+                    {% for file_name in file_names %}
                         <p style="color: white;">
-                            {{ file.filename }}
+                            {{ file_name }}
                         </p>
                     {% endfor %}
                 </div>
@@ -39,7 +41,15 @@
         </aside>
         
         <main class="content">
-
+            <p> {{ x }}</p>
+            <p> {{ y }} </p>
+            <div class="cont-section">
+                <div id="graph"
+                    data-x="{{ x | tojson }}"
+                    data-y="{{ y | tojson }}">
+                </div>
+                <script src="{{ url_for('static', filename='js/graph.js') }}"></script>
+            </div>
         </main>
 
     </div>

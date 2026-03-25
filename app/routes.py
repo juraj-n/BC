@@ -3,19 +3,26 @@ from .utils import parse_csv
 
 main = Blueprint("main", __name__)
 
-uploaded_files = []
+uploaded_file_names = []
+x = []
+y = []
 
 @main.route("/")
 def home():
-    return render_template("index.html", files=uploaded_files)
+    return render_template("index.html", file_names=uploaded_file_names, x=x, y=y)
 
 @main.route("/spectra", methods=["POST"])
 def spectra():
     files = request.files.getlist("files")
 
-    global uploaded_files
+    global uploaded_file_names
+    global x
+    global y
     for file in files:
         if file and file.filename != "":
-            uploaded_files.append(file)
+            uploaded_file_names.append(file.filename)
+            data = parse_csv(file)
+            x = [point[0] for point in data]
+            y = [point[1] for point in data]
 
     return redirect(url_for("main.home"))

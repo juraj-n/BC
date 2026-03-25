@@ -3,7 +3,8 @@ import csv
 def parse_csv(file):
     #TODO: Propper CSV parsing
     if not file.filename.endswith(".csv"):
-        raise ValueError("Invalid file type")
+        #raise ValueError("Invalid file type")
+        return
     
     data = []
     stream = file.stream.read().decode("utf-8").splitlines()
