@@ -3,18 +3,10 @@ from .utils import parse_csv
 
 main = Blueprint("main", __name__)
 
-uploaded_file = []
-
 @main.route("/")
 def home():
-    return render_template("layout.html", files=uploaded_file)
+    return render_template("index.html")
 
 @main.route("/upload", methods=["POST"])
 def upload():
-    global uploaded_file
-    files = request.files.getlist("files")
-
-    for file in files:
-        uploaded_file.append(file.filename)
-    
-    return render_template("layout.html", files=uploaded_file)
+    return render_template("index.html")

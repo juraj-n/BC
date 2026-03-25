@@ -1,29 +1,27 @@
+:root {
+    --primary-purple: #4b0082;
+    --light-purple: #f3e5f5;
+    --accent-purple: #7e57c2;
+    --text-dark: #333;
+    --bg-light: #f8f9fa;
+}
+
 body {
     margin: 0;
 }
 
-.container {
+.app-container {
     display: flex;
-    height: 100vh;
 }
 
 .sidebar {
     width: 15%;
+    height: 100vh;
+    background-color: var(--primary-purple);
 }
 
-.csv-upload-btn input[type="file"] {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100px;
-    height: 100px;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.csv-upload-btn {
-    display: inline-block;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
+.content {
+    width: 85%;
+    height: 100vh;
+    background-color: var(--bg-light);
 }
