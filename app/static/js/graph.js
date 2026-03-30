@@ -19,11 +19,12 @@ document.addEventListener('DOMContentLoaded', function() {
         hovermode: 'closest'
     };
 
-    // 4. Render the plot
-    if (traces.length > 0) {
-        Plotly.newPlot('graph', traces, layout);
-    } else {
-        console.log("No data available to plot.");
-        document.getElementById('graph').innerHTML = "No data uploaded yet.";
-    }
+    const config = {
+        scrollZoom: true,
+        responsive: true,
+        displaylogo: false,
+        modeBarButtonsToRemove: ['select2d', 'lasso2d']
+    };
+
+    Plotly.newPlot('graph', traces, layout, config);
 });

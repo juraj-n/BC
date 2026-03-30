@@ -55,7 +55,7 @@
             <div class="cont-section">
                 <div id="graph" style="width:100%; height:500px;"></div>
                 <script>
-                    const allSpectra = {{ spectra_data | tojson | safe }}
+                    const allSpectra = {{ spectra_data | tojson | safe }};
                 </script>
                 <script src="{{ url_for('static', filename='js/graph.js') }}"></script>
             </div>

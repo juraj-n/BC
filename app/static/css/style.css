@@ -129,4 +129,8 @@ body {
     background-color: var(--bg-light);
 }
 
+.cont-section {
+    padding: 10px;
+}
+
 /* Main Components */
