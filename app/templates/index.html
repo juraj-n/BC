@@ -24,7 +24,7 @@
                     <form class="side-upload side-upload-form" action="{{ url_for('main.upload_csv') }}" method="POST"
                         enctype="multipart/form-data">
                         <label for="file-input"> Nahrať CSV Súbory </label>
-                        <input type="file" id="file-input" name="files" hidden onchange="this.form.submit()">
+                        <input type="file" id="file-input" name="files" multiple hidden onchange="this.form.submit()">
                     </form>
 
                     <button class="side-upload side-upload-btn"> Použiť Databázu </button>

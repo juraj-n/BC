@@ -119,7 +119,7 @@ body {
 }
 
 .spectra-list-item:has(.spectra-del-btn:hover) {
-    background-color: #7e57c2;
+    background-color: var(--accent-purple);
 }
 
 /* Main Content */
