@@ -1,19 +1,29 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const graphDiv = document.getElementById("graph");
+document.addEventListener('DOMContentLoaded', function() {
+    const traces = [];
 
-    const x = JSON.parse(graphDiv.dataset.x);
-    const y = JSON.parse(graphDiv.dataset.y);
+    for (const [filename, data] of Object.entries(allSpectra)) {
+        const trace = {
+            x: data.x,
+            y: data.y,
+            mode: 'lines',
+            name: filename
+        };
 
-    const trace = {
-        x: x,
-        y: y,
-        mode: "lines",
-        type: "scatter"
-    };
+        traces.push(trace);
+    }
 
     const layout = {
-        title: "Spectrum Graph"
+        title: 'Nenormalizované dáta',
+        xaxis: { title: 'Vlnová dĺžka' },
+        yaxis: { title: 'Intenzita' },
+        hovermode: 'closest'
     };
 
-    Plotly.newPlot(graphDiv, [trace], layout);
+    // 4. Render the plot
+    if (traces.length > 0) {
+        Plotly.newPlot('graph', traces, layout);
+    } else {
+        console.log("No data available to plot.");
+        document.getElementById('graph').innerHTML = "No data uploaded yet.";
+    }
 });

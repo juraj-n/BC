@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="sk">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,16 +11,18 @@
 
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
+
 <body>
     <div class="app-container">
-        
+
         <aside class="sidebar">
             <button class="side-analyse-btn"> Spustiť Analýzu </button>
 
             <div class="side-section">
                 <h2> VÝBER DÁT </h2>
                 <div class="side-btn-group">
-                    <form class="side-upload side-upload-form" action="{{ url_for('main.spectra') }}" method="POST" enctype="multipart/form-data">
+                    <form class="side-upload side-upload-form" action="{{ url_for('main.upload_csv') }}" method="POST"
+                        enctype="multipart/form-data">
                         <label for="file-input"> Nahrať CSV Súbory </label>
                         <input type="file" id="file-input" name="files" hidden onchange="this.form.submit()">
                     </form>
@@ -31,27 +34,42 @@
             <div class="side-section">
                 <h2> VZORKY </h2>
                 <div class="spectra-list">
-                    {% for file_name in file_names %}
-                        <p style="color: white;">
+                    {% for file_name in spectra_data.keys() %}
+                    <div class="spectra-item">
+                        <input type="checkbox" class="file-checkbox" name="selected_files" value="{{ file_name }}">
+
+                        <span class="file-name">
                             {{ file_name }}
-                        </p>
+                        </span>
+
+                        <button class="delete-btn" data-file="{{ file_name }}">
+                            X
+                        </button>
+
+                    </div>
                     {% endfor %}
                 </div>
             </div>
         </aside>
-        
+
         <main class="content">
-            <p> {{ x }}</p>
-            <p> {{ y }} </p>
             <div class="cont-section">
-                <div id="graph"
-                    data-x="{{ x | tojson }}"
-                    data-y="{{ y | tojson }}">
-                </div>
+                <div id="graph" style="width:100%; height:500px;"></div>
+                <script>
+                    const allSpectra = {{ spectra_data | tojson | safe }}
+                </script>
                 <script src="{{ url_for('static', filename='js/graph.js') }}"></script>
+            </div>
+
+            <div class="cont-section">
+                <h3>Debug: Full Spectra Data</h3>
+                <pre style="background: #f4f4f4; border: 1px solid #ccc; padding: 10px;">
+                {{ spectra_data | tojson(indent=2) }}
+                </pre>
             </div>
         </main>
 
     </div>
 </body>
+
 </html>
