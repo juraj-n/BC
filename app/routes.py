@@ -15,6 +15,13 @@ def upload_csv():
 
     for file in files:
         if file and file.filename != "":
-            spectra_data[file.filename] = parse_csv(file)
+            name = file.filename.removesuffix('.csv')
+            spectra_data[name] = parse_csv(file)
+
+    return redirect(url_for("main.home"))
+
+@main.route("/delete_spectra/<filename>", methods=["POST"])
+def delete_spectra(filename):
+    spectra_data.pop(filename, None)
 
     return redirect(url_for("main.home"))

@@ -35,17 +35,16 @@
                 <h2> VZORKY </h2>
                 <div class="spectra-list">
                     {% for file_name in spectra_data.keys() %}
-                    <div class="spectra-item">
-                        <input type="checkbox" class="file-checkbox" name="selected_files" value="{{ file_name }}">
-
-                        <span class="file-name">
+                    <div class="spectra-list-item">
+                        <span>
                             {{ file_name }}
                         </span>
 
-                        <button class="delete-btn" data-file="{{ file_name }}">
-                            X
-                        </button>
-
+                        <form action="{{ url_for('main.delete_spectra', filename=file_name) }}" method="POST">
+                            <button type=" submit" class="spectra-del-btn" title="Delete {{ file_name }}">
+                                X
+                            </button>
+                        </form>
                     </div>
                     {% endfor %}
                 </div>

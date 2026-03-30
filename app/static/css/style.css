@@ -93,6 +93,35 @@ body {
     flex: 1;
 }
 
+.spectra-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.spectra-list-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.spectra-del-btn {
+    background: transparent;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    color: lightgray;
+}
+
+.spectra-del-btn:hover,
+.spectra-del-btn:active {
+    color: red;
+}
+
+.spectra-list-item:has(.spectra-del-btn:hover) {
+    background-color: #7e57c2;
+}
+
 /* Main Content */
 .content {
     width: 85%;
