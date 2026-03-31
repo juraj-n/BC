@@ -1,30 +1,42 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const traces = [];
+    
+    // Function to create a plot
+    function createPlot(elementId, spectraData, plotTitle) {
+        const traces = [];
 
-    for (const [filename, data] of Object.entries(allSpectra)) {
-        const trace = {
-            x: data.x,
-            y: data.y,
-            mode: 'lines',
-            name: filename
+        for (const [filename, data] of Object.entries(spectraData)) {
+            traces.push({
+                x: data.x,
+                y: data.y,
+                mode: 'lines',
+                name: filename
+            });
+        }
+
+        const layout = {
+            title: plotTitle,
+            xaxis: { title: 'Vlnová dĺžka (nm)' },
+            yaxis: { title: plotTitle.includes('Normalizované') ? 'Intenzita (norm)' : 'Intenzita (a.u.)' },
+            hovermode: 'closest'
         };
 
-        traces.push(trace);
+        const config = {
+            scrollZoom: true,
+            responsive: true,
+            displaylogo: false,
+            modeBarButtonsToRemove: ['select2d', 'lasso2d']
+        };
+
+        Plotly.newPlot(elementId, traces, layout, config);
     }
 
-    const layout = {
-        title: 'Nenormalizované dáta',
-        xaxis: { title: 'Vlnová dĺžka' },
-        yaxis: { title: 'Intenzita' },
-        hovermode: 'closest'
-    };
+    // Initialize Graph 1: Raw Data
+    if (typeof rawSpectraData !== 'undefined') {
+        createPlot('graph-raw', rawSpectraData, 'Nenormalizované dáta');
+    }
 
-    const config = {
-        scrollZoom: true,
-        responsive: true,
-        displaylogo: false,
-        modeBarButtonsToRemove: ['select2d', 'lasso2d']
-    };
-
-    Plotly.newPlot('graph', traces, layout, config);
+    // Initialize Graph 2: Normalized Data
+    if (typeof normSpectraData !== 'undefined') {
+        createPlot('graph-norm', normSpectraData, 'Min-Max Normalizované dáta');
+    }
 });
