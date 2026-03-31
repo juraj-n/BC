@@ -1,4 +1,4 @@
-import csv, io, statistics
+import csv, io, statistics, math
 
 def parse_csv(file):
     #TODO: Propper CSV parsing
@@ -62,3 +62,18 @@ def z_score_normalize(data): # Normalizácia podľa smerodajnej odchýlky
         "x": data["x"],
         "y": norm_y
     }
+
+def calculate_pearson(y1, y2):
+    length = min(len(y1), len(y2))
+    y1, y2 = y1[:length], y2[:length]
+
+    mu1 = statistics.mean(y1)
+    mu2 = statistics.mean(y2)
+
+    numerator = sum((a - mu1) * (b - mu2) for a, b in zip(y1, y2))
+    denominator = math.sqrt(sum((a - mu1)**2 for a in y1) * sum((b - mu2)**2 for b in y2))
+
+    if denominator == 0:
+        return 0
+    else:
+        return numerator / denominator

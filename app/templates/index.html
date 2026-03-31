@@ -16,7 +16,9 @@
     <div class="app-container">
 
         <aside class="sidebar">
-            <button class="side-analyse-btn"> Spustiť Analýzu </button>
+            <form action="{{ url_for('main.compare_samples') }}" method="POST">
+                <button type="submit" class="side-analyse-btn"> Spustiť Analýzu </button>
+            </form>
 
             <div class="side-section">
                 <h2> VÝBER DÁT </h2>
@@ -52,6 +54,28 @@
         </aside>
 
         <main class="content">
+            <div class="cont-section">
+                <h3> Porovnanie vzoriek </h3>
+                <table class="spectra-table">
+                    <thead>
+                        <tr>
+                            <th> Vzorka A </th>
+                            <th> Vzorka B </th>
+                            <th> Koeficient </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if result | length > 0 %}
+                        <tr>
+                            <td> {{ result[0].sample_a }} </td>
+                            <td> {{ result[0].sample_b }} </td>
+                            <td> {{ result[0].coefficient }} </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
             <div class="cont-section">
                 <div class="spectra-graph" id="graph-raw"></div>
             </div>
