@@ -32,5 +32,6 @@ def upload_csv():
 def delete_spectra(filename):
     spectra_data.pop(filename, None)
     min_max_norm_data.pop(filename, None)
+    z_score_norm_data.pop(filename, None)
 
     return redirect(url_for("main.home"))
