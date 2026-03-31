@@ -60,6 +60,13 @@
             </div>
 
             <div class="cont-section">
+                <div id="graph-zscore" style="width:100%; height:500px;"></div>
+                <script>
+                    const zScoreData = JSON.parse('{{ z_score_norm_data | tojson | safe }}');
+                </script>
+            </div>
+
+            <div class="cont-section">
                 <div id="graph-norm" style="width:100%; height:500px;"></div>
                 <script>
                     const normSpectraData = JSON.parse('{{ min_max_norm_data | tojson | safe }}');

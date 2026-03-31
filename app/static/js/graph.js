@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', function() {
         Plotly.newPlot(elementId, traces, layout, config);
     }
 
-    // Initialize Graph 1: Raw Data
     if (typeof rawSpectraData !== 'undefined') {
         createPlot('graph-raw', rawSpectraData, 'Nenormalizované dáta');
     }
-
-    // Initialize Graph 2: Normalized Data
+    if (typeof zScoreData !== 'undefined') {
+        createPlot('graph-zscore', zScoreData, 'Z-Score Normalizované dáta (Standard Deviation)');
+    }
     if (typeof normSpectraData !== 'undefined') {
         createPlot('graph-norm', normSpectraData, 'Min-Max Normalizované dáta');
     }
