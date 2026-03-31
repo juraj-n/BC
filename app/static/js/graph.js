@@ -37,6 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
         createPlot('graph-zscore', zScoreData, 'Z-Score Normalizované dáta (Standard Deviation)');
     }
     if (typeof normSpectraData !== 'undefined') {
-        createPlot('graph-norm', normSpectraData, 'Min-Max Normalizované dáta');
+        createPlot('graph-min-max', normSpectraData, 'Min-Max Normalizované dáta');
     }
 });

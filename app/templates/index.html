@@ -53,25 +53,15 @@
 
         <main class="content">
             <div class="cont-section">
-                <div id="graph-raw" style="width:100%; height:500px;"></div>
-                <script>
-                    const rawSpectraData = JSON.parse('{{ spectra_data | tojson | safe }}');
-                </script>
+                <div class="spectra-graph" id="graph-raw"></div>
             </div>
 
             <div class="cont-section">
-                <div id="graph-zscore" style="width:100%; height:500px;"></div>
-                <script>
-                    const zScoreData = JSON.parse('{{ z_score_norm_data | tojson | safe }}');
-                </script>
+                <div class="spectra-graph" id="graph-zscore"></div>
             </div>
 
             <div class="cont-section">
-                <div id="graph-norm" style="width:100%; height:500px;"></div>
-                <script>
-                    const normSpectraData = JSON.parse('{{ min_max_norm_data | tojson | safe }}');
-                </script>
-                <script src="{{ url_for('static', filename='js/graph.js') }}"></script>
+                <div class="spectra-graph" id="graph-min-max"></div>
             </div>
 
             <div class="cont-section">
@@ -83,6 +73,14 @@
         </main>
 
     </div>
+
+    <script>
+        const rawSpectraData = JSON.parse('{{ spectra_data | tojson | safe }}');
+        const zScoreData = JSON.parse('{{ z_score_norm_data | tojson | safe }}');
+        const normSpectraData = JSON.parse('{{ min_max_norm_data | tojson | safe }}');
+    </script>
+    <script src="{{ url_for('static', filename='js/graph.js') }}"></script>
+
 </body>
 
 </html>
