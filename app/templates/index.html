@@ -16,7 +16,7 @@
     <div class="app-container">
 
         <aside class="sidebar">
-            <form action="{{ url_for('main.compare_samples') }}" method="POST">
+            <form id="compare-form" action="{{ url_for('main.compare_samples') }}" method="POST">
                 <button type="submit" class="side-analyse-btn"> Spustiť Analýzu </button>
             </form>
 
@@ -39,6 +39,8 @@
                 <div class="spectra-list">
                     {% for file_name in spectra_data.keys() %}
                     <div class="spectra-list-item">
+                        <input type="checkbox" name="selected" value="{{ file_name }}" form="compare-form"
+                            class="spectra-checkbox">
                         <span>
                             {{ file_name }}
                         </span>

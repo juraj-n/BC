@@ -14,21 +14,17 @@ def home():
 
 @main.route("/compare_samples", methods=["POST"])
 def compare_samples():
-    filenames = list(data.spectra_data.keys())
-
-    if len(filenames) < 2:
+    selected_samples = request.form.getlist("selected")
+    if len(selected_samples) == 0:
         return redirect(url_for("main.home"))
-    
-    name_a = filenames[0]
-    name_b = filenames[1]
 
-    data_a = data.min_max_norm_data[name_a]
-    data_b = data.min_max_norm_data[name_b]
+    name_a = selected_samples[0]
+    name_b = selected_samples[1]
 
-    coeff = calculate_pearson(data_a["y"], data_b["y"])
+    coeff = calculate_pearson(data.min_max_norm_data[name_a]["y"],
+                              data.min_max_norm_data[name_b]["y"])
 
-    global result
-    result = [{
+    data.result = [{
         "sample_a": name_a,
         "sample_b": name_b,
         "coefficient": round(coeff, 4)
