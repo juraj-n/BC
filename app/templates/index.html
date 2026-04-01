@@ -61,21 +61,21 @@
         <main class="content">
             <div class="cont-section">
                 {% if comparison_matrix | length > 0 %}
-                <table>
+                <table class="heatmap-table">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th class="heatmap-header"></th>
                             {% for name in comparison_matrix.samples %}
-                            <th>{{ name }}</th>
+                            <th class="heatmap-header">{{ name }}</th>
                             {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
                         {% for row in comparison_matrix.matrix %}
                         <tr>
-                            <th>{{ comparison_matrix.samples[loop.index0] }}</th>
+                            <th class="heatmap-header">{{ comparison_matrix.samples[loop.index0] }}</th>
                             {% for coeff in row %}
-                            <td>
+                            <td class="heatmap-cell" style="--coeff: {{ coeff }}">
                                 {{ coeff }}
                             </td>
                             {% endfor %}

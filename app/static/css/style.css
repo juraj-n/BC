@@ -162,6 +162,36 @@ body {
 }
 
 /* Main Components */
+.heatmap-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.heatmap-header {
+    background-color: var(--primary-purple);
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+.heatmap-cell {
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    background-color: hsl(calc(clamp(0, var(--coeff), 1) * 120), 32%, 70%);
+    padding: 10px;
+    transition: transform 0.3s ease;
+}
+
+.heatmap-cell:hover,
+.heatmap-cell:active {
+    transform: scale(1.08);
+    background-color: hsl(calc(clamp(0, var(--coeff), 1) * 120), 100%, 70%);
+    cursor: default;
+}
+
 .graph-switch {
     display: flex;
     justify-content: end;
