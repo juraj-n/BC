@@ -2,11 +2,6 @@ import csv, io, statistics, math
 
 def parse_csv(file):
     #TODO: Propper CSV parsing
-
-    if not file.filename.endswith(".csv"):
-        #raise ValueError("Invalid file type")
-        return
-    
     stream = io.StringIO(file.stream.read().decode("UTF8"), newline = None)
     reader = csv.DictReader(stream)
 
@@ -15,8 +10,8 @@ def parse_csv(file):
     
     for row in reader:
         try:
-            x_values.append(float(row['wavelength_nm']))
-            y_values.append(float(row['intensity_au']))
+            x_values.append(float(row["wavelength_nm"]))
+            y_values.append(float(row["intensity_au"]))
         except:
             continue
     
@@ -25,7 +20,7 @@ def parse_csv(file):
         "y": y_values
     }
 
-def min_max_normalize(data): # Min-max normalizácia na interval H(f): <0, 1>
+def min_max_normalize(data): # Min-max normalizácia na interval <0, 1>
     y_values = data["y"]
 
     if not y_values:

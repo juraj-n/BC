@@ -26,7 +26,8 @@
                     <form class="side-upload side-upload-form" action="{{ url_for('main.upload_csv') }}" method="POST"
                         enctype="multipart/form-data">
                         <label for="file-input"> Nahrať CSV Súbory </label>
-                        <input type="file" id="file-input" name="files" multiple hidden onchange="this.form.submit()">
+                        <input type="file" id="file-input" name="files" multiple hidden accept=".csv"
+                            onchange="this.form.submit()">
                     </form>
 
                     <button class="side-upload side-upload-btn"> Použiť Databázu </button>
@@ -93,13 +94,6 @@
                 <div id="section-zscore" class="graph-container hidden">
                     <div class="spectra-graph" id="graph-zscore"></div>
                 </div>
-            </div>
-
-            <div class="cont-section">
-                <h3>Debug: Full Spectra Data</h3>
-                <pre style="background: #f4f4f4; border: 1px solid #ccc; padding: 10px;">
-                {{ spectra_data | tojson(indent=2) }}
-                </pre>
             </div>
         </main>
 
