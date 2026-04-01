@@ -120,8 +120,16 @@ body {
     border-radius: 5px;
 }
 
+.spectra-item-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
 .spectra-checkbox {
-    color: green;
+    position: relative;
+    top: 2px;
+    cursor: pointer;
 }
 
 .spectra-del-btn {
@@ -137,7 +145,8 @@ body {
     color: red;
 }
 
-.spectra-list-item:has(.spectra-del-btn:hover) {
+.spectra-list-item:hover,
+.spectra-list-item:active {
     background-color: var(--accent-purple);
 }
 

@@ -39,11 +39,13 @@
                 <div class="spectra-list">
                     {% for file_name in spectra_data.keys() %}
                     <div class="spectra-list-item">
-                        <input type="checkbox" name="selected" value="{{ file_name }}" form="compare-form"
-                            class="spectra-checkbox">
-                        <span>
-                            {{ file_name }}
-                        </span>
+                        <div class="spectra-item-info">
+                            <input type="checkbox" name="selected" value="{{ file_name }}" form="compare-form"
+                                class="spectra-checkbox">
+                            <span>
+                                {{ file_name }}
+                            </span>
+                        </div>
 
                         <form action="{{ url_for('main.delete_spectra', filename=file_name) }}" method="POST">
                             <button type=" submit" class="spectra-del-btn" title="Delete {{ file_name }}">

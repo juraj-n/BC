@@ -15,7 +15,7 @@ def home():
 @main.route("/compare_samples", methods=["POST"])
 def compare_samples():
     selected_samples = request.form.getlist("selected")
-    if len(selected_samples) == 0:
+    if len(selected_samples) < 2:
         return redirect(url_for("main.home"))
 
     name_a = selected_samples[0]
