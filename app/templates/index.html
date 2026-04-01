@@ -55,7 +55,6 @@
 
         <main class="content">
             <div class="cont-section">
-                <h3> Porovnanie vzoriek </h3>
                 <table class="spectra-table">
                     <thead>
                         <tr>
@@ -77,15 +76,23 @@
             </div>
 
             <div class="cont-section">
-                <div class="spectra-graph" id="graph-raw"></div>
-            </div>
+                <div class="graph-switch">
+                    <button onclick="switchGraph('raw')"> Pôvodné </button>
+                    <button onclick="switchGraph('min-max')"> Min Max </button>
+                    <button onclick="switchGraph('zscore')"> Z Score </button>
+                </div>
 
-            <div class="cont-section">
-                <div class="spectra-graph" id="graph-zscore"></div>
-            </div>
+                <div id="section-raw" class="graph-container">
+                    <div class="spectra-graph" id="graph-raw"></div>
+                </div>
 
-            <div class="cont-section">
-                <div class="spectra-graph" id="graph-min-max"></div>
+                <div id="section-min-max" class="graph-container hidden">
+                    <div class="spectra-graph" id="graph-min-max"></div>
+                </div>
+
+                <div id="section-zscore" class="graph-container hidden">
+                    <div class="spectra-graph" id="graph-zscore"></div>
+                </div>
             </div>
 
             <div class="cont-section">
@@ -104,6 +111,7 @@
         const normSpectraData = JSON.parse('{{ min_max_norm_data | tojson | safe }}');
     </script>
     <script src="{{ url_for('static', filename='js/graph.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/graphSwitch.js') }}"></script>
 
 </body>
 

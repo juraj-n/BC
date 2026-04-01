@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // Function to create a plot
     function createPlot(elementId, spectraData, plotTitle) {
         const traces = [];
 
