@@ -153,6 +153,7 @@ body {
 /* Main Content */
 .content {
     flex-grow: 1;
+    min-height: 100vh;
     background-color: var(--bg-light);
 }
 
@@ -161,34 +162,6 @@ body {
 }
 
 /* Main Components */
-.spectra-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.spectra-table th {
-    background-color: var(--primary-purple);
-    color: white;
-    text-align: left;
-    padding: 12px 15px;
-}
-
-.spectra-table td {
-    padding: 10px 15px;
-    border-bottom: 1px solid #ddd;
-}
-
-.spectra-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.spectra-table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
 .graph-switch {
     display: flex;
     justify-content: end;

@@ -60,24 +60,30 @@
 
         <main class="content">
             <div class="cont-section">
-                <table class="spectra-table">
+                {% if comparison_matrix | length > 0 %}
+                <table>
                     <thead>
                         <tr>
-                            <th> Vzorka A </th>
-                            <th> Vzorka B </th>
-                            <th> Koeficient </th>
+                            <th></th>
+                            {% for name in comparison_matrix.samples %}
+                            <th>{{ name }}</th>
+                            {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
-                        {% if result | length > 0 %}
+                        {% for row in comparison_matrix.matrix %}
                         <tr>
-                            <td> {{ result[0].sample_a }} </td>
-                            <td> {{ result[0].sample_b }} </td>
-                            <td> {{ result[0].coefficient }} </td>
+                            <th>{{ comparison_matrix.samples[loop.index0] }}</th>
+                            {% for coeff in row %}
+                            <td>
+                                {{ coeff }}
+                            </td>
+                            {% endfor %}
                         </tr>
-                        {% endif %}
+                        {% endfor %}
                     </tbody>
                 </table>
+                {% endif %}
             </div>
 
             <div class="cont-section">

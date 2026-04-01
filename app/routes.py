@@ -10,25 +10,27 @@ def home():
                            spectra_data=data.spectra_data,
                            min_max_norm_data=data.min_max_norm_data,
                            z_score_norm_data=data.z_score_norm_data,
-                           result=data.result)
+                           comparison_matrix=data.comparison_matrix)
 
 @main.route("/compare_samples", methods=["POST"])
 def compare_samples():
     selected_samples = request.form.getlist("selected")
     if len(selected_samples) < 2:
         return redirect(url_for("main.home"))
+    
+    matrix = []
+    for name_a in selected_samples:
+        row = []
+        for name_b in selected_samples:
+            coeff = calculate_pearson(data.min_max_norm_data[name_a]["y"],
+                                      data.min_max_norm_data[name_b]["y"])
+            row.append(round(coeff, 3))
+        matrix.append(row)
 
-    name_a = selected_samples[0]
-    name_b = selected_samples[1]
-
-    coeff = calculate_pearson(data.min_max_norm_data[name_a]["y"],
-                              data.min_max_norm_data[name_b]["y"])
-
-    data.result = [{
-        "sample_a": name_a,
-        "sample_b": name_b,
-        "coefficient": round(coeff, 4)
-    }]
+    data.comparison_matrix = {
+        "samples": selected_samples,
+        "matrix": matrix
+    }
 
     return redirect(url_for("main.home"))
 
