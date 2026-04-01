@@ -108,6 +108,25 @@ body {
     flex: 1;
 }
 
+.spectra-check-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.check-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+.check-btn:hover,
+.check-btn:active {
+    opacity: 1;
+}
+
 .spectra-list {
     display: flex;
     flex-direction: column;

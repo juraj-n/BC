@@ -35,7 +35,13 @@
             </div>
 
             <div class="side-section">
-                <h2> VZORKY </h2>
+                <div class="spectra-check-controls">
+                    <h2> VZORKY </h2>
+                    <div>
+                        <button type="button" class="check-btn" onclick="setAllCheckboxes(true)"> Všetky </button>
+                        <button type="button" class="check-btn" onclick="setAllCheckboxes(false)"> Žiadne </button>
+                    </div>
+                </div>
                 <div class="spectra-list">
                     {% for file_name in spectra_data.keys() %}
                     <div class="spectra-list-item">
@@ -116,6 +122,7 @@
     </script>
     <script src="{{ url_for('static', filename='js/graph.js') }}"></script>
     <script src="{{ url_for('static', filename='js/graphSwitch.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/checkboxSetter.js') }}"></script>
 
 </body>
 
