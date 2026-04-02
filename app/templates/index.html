@@ -81,7 +81,7 @@
                         <tr>
                             <th class="heatmap-header">{{ comparison_matrix.samples[loop.index0] }}</th>
                             {% for coeff in row %}
-                            <td class="heatmap-cell" style="--coeff: {{ coeff }}">
+                            <td class="heatmap-cell" style="--coeff: {{ (coeff + 1) / 2 }}">
                                 {{ coeff }}
                             </td>
                             {% endfor %}
