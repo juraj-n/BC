@@ -140,9 +140,15 @@ body {
 }
 
 .spectra-item-info {
+    flex: 1;
+}
+
+.spectra-item-info label {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+    width: 100%;
+    cursor: pointer;
 }
 
 .spectra-checkbox {
