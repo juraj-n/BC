@@ -6,11 +6,17 @@ main = Blueprint("main", __name__)
 
 @main.route("/")
 def home():
+    raw     = {name: v["raw"]     for name, v in data.selected_samples.items()}
+    min_max = {name: v["min_max"] for name, v in data.selected_samples.items()}
+    z_score = {name: v["z_score"] for name, v in data.selected_samples.items()}
+
     return render_template("index.html",
                            spectra_data=data.spectra_data,
-                           min_max_norm_data=data.min_max_norm_data,
-                           z_score_norm_data=data.z_score_norm_data,
-                           comparison_matrix=data.comparison_matrix)
+                           comparison_matrix=data.comparison_matrix,
+                           raw_selected=raw,
+                           min_max_selected=min_max,
+                           z_score_selected=z_score
+                           )
 
 @main.route("/compare_samples", methods=["POST"])
 def compare_samples():
@@ -18,6 +24,15 @@ def compare_samples():
     if len(selected_samples) < 2:
         return redirect(url_for("main.home"))
     
+    data.selected_samples = {
+        name: {
+            "raw": data.spectra_data[name],
+            "min_max": data.min_max_norm_data[name],
+            "z_score": data.z_score_norm_data[name]
+        }
+        for name in selected_samples if name in data.spectra_data
+    }
+
     matrix = []
     for name_a in selected_samples:
         row = []

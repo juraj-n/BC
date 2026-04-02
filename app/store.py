@@ -4,6 +4,7 @@ class DataStore:
         self.min_max_norm_data = {}
         self.z_score_norm_data = {}
         self.comparison_matrix = {"samples": [], "matrix": []}
+        self.selected_samples = {}
     
     def add(self, name, raw, min_max, z_score):
         self.spectra_data[name] = raw

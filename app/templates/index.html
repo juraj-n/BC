@@ -116,9 +116,9 @@
     </div>
 
     <script>
-        const rawSpectraData = JSON.parse('{{ spectra_data | tojson | safe }}');
-        const zScoreData = JSON.parse('{{ z_score_norm_data | tojson | safe }}');
-        const normSpectraData = JSON.parse('{{ min_max_norm_data | tojson | safe }}');
+        const rawSpectraData = JSON.parse('{{ raw_selected | tojson | safe }}');
+        const zScoreData = JSON.parse('{{ z_score_selected | tojson | safe }}');
+        const normSpectraData = JSON.parse('{{ min_max_selected | tojson | safe }}');
     </script>
     <script src="{{ url_for('static', filename='js/graph.js') }}"></script>
     <script src="{{ url_for('static', filename='js/graphSwitch.js') }}"></script>
