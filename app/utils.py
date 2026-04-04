@@ -58,7 +58,19 @@ def z_score_normalize(data): # Normalizácia podľa smerodajnej odchýlky
         "y": norm_y
     }
 
-def calculate_pearson(y1, y2):
+def calculate_pearson_matrix(spectra, selected):
+    matrix = []
+    for a in selected:
+        row = []
+        for b in selected:
+            y1 = spectra[a].min_max["y"]
+            y2 = spectra[b].min_max["y"]
+            row.append(round(_pearson_coeff(y1, y2), 3))
+        matrix.append(row)
+    
+    return matrix
+
+def _pearson_coeff(y1, y2):
     length = min(len(y1), len(y2))
     y1, y2 = y1[:length], y2[:length]
 

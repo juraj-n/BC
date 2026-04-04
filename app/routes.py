@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from .utils import parse_csv, min_max_normalize, z_score_normalize, calculate_pearson
-from .store import ComparisonData,data
+from .utils import parse_csv, min_max_normalize, z_score_normalize, calculate_pearson_matrix
+from .store import ComparisonData, data
 
 main = Blueprint("main", __name__)
 
@@ -26,12 +26,8 @@ def run_analysis():
     
     comparison = ComparisonData()
     comparison.samples = selected_names
-    comparison.metrics["pearson"] = [
-        [round(calculate_pearson(data.spectra[a].min_max["y"],
-                                 data.spectra[b].min_max["y"]), 3)
-         for b in selected_names]
-         for a in  selected_names
-        ]
+
+    comparison.metrics["pearson"] = calculate_pearson_matrix(data.spectra, selected_names)
     
     data.comparison = comparison
 
