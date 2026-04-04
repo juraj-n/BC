@@ -201,7 +201,7 @@ body {
     padding: 10px;
 }
 
-.heatmap-cell {
+.pearson-cell {
     text-align: center;
     vertical-align: middle;
     font-weight: bold;
@@ -210,21 +210,37 @@ body {
     transition: transform 0.3s ease;
 }
 
-.heatmap-cell:hover,
-.heatmap-cell:active {
+.pearson-cell:hover,
+.pearson-cell:active {
     transform: scale(1.08);
     background-color: hsl(calc(clamp(0, var(--coeff), 1) * 120), 100%, 70%);
     cursor: default;
 }
 
-.graph-switch {
+.euclidean-cell {
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    background-color: lightgray;
+    padding: 10px;
+    transition: transform 0.3s ease;
+}
+
+.euclidean-cell:hover,
+.euclidean-cell:active {
+    transform: scale(1.08);
+    background-color: white;
+    cursor: default;
+}
+
+.switch-btns {
     display: flex;
     justify-content: end;
     gap: 5px;
     margin-bottom: 5px;
 }
 
-.graph-switch button {
+.switch-btns button {
     padding: 5px;
     cursor: pointer;
     color: white;
@@ -234,8 +250,8 @@ body {
     border: none;
 }
 
-.graph-switch button:hover,
-.graph-switch button:active {
+.switch-btns button:hover,
+.switch-btns button:active {
     opacity: 0.8;
 }
 

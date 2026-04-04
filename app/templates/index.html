@@ -68,61 +68,68 @@
 
         <main class="content">
             <div class="cont-section">
-                {% if comparison and comparison.metrics.pearson | length > 0 %}
-                <table class="heatmap-table">
-                    <thead>
-                        <tr>
-                            <th class="heatmap-header"></th>
-                            {% for name in comparison.samples %}
-                            <th class="heatmap-header">{{ name }}</th>
+                <div class="switch-btns">
+                    <button onclick="switchTable('pearson')"> Pearson </button>
+                    <button onclick="switchTable('euclidean')"> Euclidean </button>
+                </div>
+
+                <div id="table-pearson" class="table-container">
+                    {% if comparison and comparison.metrics.pearson | length > 0 %}
+                    <table class="heatmap-table">
+                        <thead>
+                            <tr>
+                                <th class="heatmap-header"></th>
+                                {% for name in comparison.samples %}
+                                <th class="heatmap-header">{{ name }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in comparison.metrics.pearson %}
+                            <tr>
+                                <th class="heatmap-header">{{ comparison.samples[loop.index0] }}</th>
+                                {% for coeff in row %}
+                                <td class="pearson-cell" style="--coeff: {{ (coeff + 1) / 2 }}">
+                                    {{ coeff }}
+                                </td>
+                                {% endfor %}
+                            </tr>
                             {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in comparison.metrics.pearson %}
-                        <tr>
-                            <th class="heatmap-header">{{ comparison.samples[loop.index0] }}</th>
-                            {% for coeff in row %}
-                            <td class="heatmap-cell" style="--coeff: {{ (coeff + 1) / 2 }}">
-                                {{ coeff }}
-                            </td>
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
+
+                <div id="table-euclidean" class="table-container hidden">
+                    {% if comparison and comparison.metrics.euclidean | length > 0 %}
+                    <table class="heatmap-table">
+                        <thead>
+                            <tr>
+                                <th class="heatmap-header"></th>
+                                {% for name in comparison.samples %}
+                                <th class="heatmap-header">{{ name }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in comparison.metrics.euclidean %}
+                            <tr>
+                                <th class="heatmap-header">{{ comparison.samples[loop.index0] }}</th>
+                                {% for distance in row %}
+                                <td class="euclidean-cell" style="--distance: {{ (distance / 1) }}">
+                                    {{ distance }}
+                                </td>
+                                {% endfor %}
+                            </tr>
                             {% endfor %}
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% endif %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
             </div>
 
             <div class="cont-section">
-                {% if comparison and comparison.metrics.euclidean | length > 0 %}
-                <table class="heatmap-table">
-                    <thead>
-                        <tr>
-                            <th class="heatmap-header"></th>
-                            {% for name in comparison.samples %}
-                            <th class="heatmap-header">{{ name }}</th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in comparison.metrics.euclidean %}
-                        <tr>
-                            <th class="heatmap-header">{{ comparison.samples[loop.index0] }}</th>
-                            {% for distance in row %}
-                            <td class="heatmap-cell" style="--distance: {{ (distance + 1) / 2 }}">
-                                {{ distance }}
-                            </td>
-                            {% endfor %}
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% endif %}
-            </div>
-
-            <div class="cont-section">
-                <div class="graph-switch">
+                <div class="switch-btns">
                     <button onclick="switchGraph('raw')"> Pôvodné </button>
                     <button onclick="switchGraph('min-max')"> Min Max </button>
                     <button onclick="switchGraph('zscore')"> Z Score </button>
@@ -151,6 +158,7 @@
     </script>
     <script src="{{ url_for('static', filename='js/graph.js') }}"></script>
     <script src="{{ url_for('static', filename='js/graphSwitch.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tableSwitch.js') }}"></script>
     <script src="{{ url_for('static', filename='js/checkboxSetter.js') }}"></script>
 
 </body>
