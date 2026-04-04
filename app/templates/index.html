@@ -16,7 +16,7 @@
     <div class="app-container">
 
         <aside class="sidebar">
-            <form id="compare-form" action="{{ url_for('main.compare_samples') }}" method="POST">
+            <form id="compare-form" action="{{ url_for('main.run_analysis') }}" method="POST">
                 <button type="submit" class="side-analyse-btn"> Spustiť Analýzu </button>
             </form>
 
@@ -43,20 +43,20 @@
                     </div>
                 </div>
                 <div class="spectra-list">
-                    {% for file_name in spectra_data.keys() %}
+                    {% for spectrum_name in spectra.keys() %}
                     <div class="spectra-list-item">
                         <div class="spectra-item-info">
                             <label>
-                                <input type="checkbox" name="selected" value="{{ file_name }}" form="compare-form"
+                                <input type="checkbox" name="selected" value="{{ spectrum_name }}" form="compare-form"
                                     class="spectra-checkbox">
                                 <span>
-                                    {{ file_name }}
+                                    {{ spectrum_name }}
                                 </span>
                             </label>
                         </div>
 
-                        <form action="{{ url_for('main.delete_spectra', filename=file_name) }}" method="POST">
-                            <button type=" submit" class="spectra-del-btn" title="Delete {{ file_name }}">
+                        <form action="{{ url_for('main.delete_spectra', spectrum_name=spectrum_name) }}" method="POST">
+                            <button type=" submit" class="spectra-del-btn" title="Delete {{ spectrum_name }}">
                                 X
                             </button>
                         </form>
@@ -68,20 +68,20 @@
 
         <main class="content">
             <div class="cont-section">
-                {% if comparison_matrix.matrix | length > 0 %}
+                {% if comparison and comparison.metrics.pearson | length > 0 %}
                 <table class="heatmap-table">
                     <thead>
                         <tr>
                             <th class="heatmap-header"></th>
-                            {% for name in comparison_matrix.samples %}
+                            {% for name in comparison.samples %}
                             <th class="heatmap-header">{{ name }}</th>
                             {% endfor %}
                         </tr>
                     </thead>
                     <tbody>
-                        {% for row in comparison_matrix.matrix %}
+                        {% for row in comparison.metrics.pearson %}
                         <tr>
-                            <th class="heatmap-header">{{ comparison_matrix.samples[loop.index0] }}</th>
+                            <th class="heatmap-header">{{ comparison.samples[loop.index0] }}</th>
                             {% for coeff in row %}
                             <td class="heatmap-cell" style="--coeff: {{ (coeff + 1) / 2 }}">
                                 {{ coeff }}

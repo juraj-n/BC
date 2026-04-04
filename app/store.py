@@ -1,19 +1,26 @@
+class SpectrumData:
+    def __init__(self, raw, min_max, z_score):
+        self.raw = raw
+        self.min_max = min_max
+        self.z_score = z_score
+
+class ComparisonData:
+    def __init__(self):
+        self.samples = []
+        self.metrics = {}
+
 class DataStore:
     def __init__(self):
-        self.spectra_data = {}
-        self.min_max_norm_data = {}
-        self.z_score_norm_data = {}
-        self.comparison_matrix = {"samples": [], "matrix": []}
-        self.selected_samples = {}
+        self.spectra = {}
+        self.comparison = None
     
     def add(self, name, raw, min_max, z_score):
-        self.spectra_data[name] = raw
-        self.min_max_norm_data[name] = min_max
-        self.z_score_norm_data[name] = z_score
+        self.spectra[name] = SpectrumData(raw, min_max, z_score)
+        self.comparison = None
 
     def delete(self, name):
-        self.spectra_data.pop(name, None)
-        self.min_max_norm_data.pop(name, None)
-        self.z_score_norm_data.pop(name, None)
+        self.spectra.pop(name, None)
+        self.selected_samples.pop(name, None)
+        self.comparison = None
 
 data = DataStore()
