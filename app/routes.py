@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from .utils import parse_csv, min_max_normalize, z_score_normalize, calculate_pearson_matrix
+from .utils import parse_csv, min_max_normalize, z_score_normalize, calculate_pearson_matrix, calculate_euclidean_distance
 from .store import ComparisonData, data
 
 main = Blueprint("main", __name__)
@@ -28,6 +28,7 @@ def run_analysis():
     comparison.samples = selected_names
 
     comparison.metrics["pearson"] = calculate_pearson_matrix(data.spectra, selected_names)
+    comparison.metrics["euclidean"] = calculate_euclidean_distance(data.spectra, selected_names)
     
     data.comparison = comparison
 

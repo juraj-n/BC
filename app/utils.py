@@ -84,3 +84,21 @@ def _pearson_coeff(y1, y2):
         return 0
     else:
         return numerator / denominator
+
+def calculate_euclidean_distance(spectra, selected):
+    matrix = []
+    for a in selected:
+        row = []
+        for b in selected:
+            y1 = spectra[a].z_score["y"]
+            y2 = spectra[b].z_score["y"]
+            row.append(round(_euclidean_distance(y1, y2), 3))
+        matrix.append(row)
+    
+    return matrix
+
+def _euclidean_distance(y1, y2):
+    length = min(len(y1), len(y2))
+    y1, y2 = y1[:length], y2[:length]
+
+    return math.sqrt(sum((a - b) ** 2 for a, b in zip(y1, y2)))
