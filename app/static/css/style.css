@@ -187,14 +187,23 @@ body {
 }
 
 /* Main Components */
-.heatmap-table {
+.comp-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.heatmap-header {
+.comp-header {
     background-color: var(--primary-purple);
     color: white;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+.comp-second-header {
+    background-color: var(--light-purple);
+    color: black;
     font-weight: bold;
     text-align: center;
     vertical-align: middle;
