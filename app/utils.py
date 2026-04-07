@@ -85,7 +85,7 @@ def _pearson_coeff(y1, y2):
     else:
         return numerator / denominator
 
-def calculate_euclidean_distance(spectra, selected):
+def calculate_euclidean_dist_matrix(spectra, selected):
     matrix = []
     for a in selected:
         row = []
@@ -102,3 +102,28 @@ def _euclidean_distance(y1, y2):
     y1, y2 = y1[:length], y2[:length]
 
     return math.sqrt(sum((a - b) ** 2 for a, b in zip(y1, y2)))
+
+def calculate_cosine_similarity_matrix(spectra, selected):
+    matrix = []
+    for a in selected:
+        row = []
+        for b in selected:
+            y1 = spectra[a].z_score["y"]
+            y2 = spectra[b].z_score["y"]
+            row.append(round(_cosine_similarity(y1, y2), 3))
+        matrix.append(row)
+    
+    return matrix
+
+def _cosine_similarity(y1, y2):
+    length = min(len(y1), len(y2))
+    y1, y2 = y1[:length], y2[:length]
+
+    dot = sum(a * b for a, b in zip(y1, y2))
+    mag1 = math.sqrt(sum(a ** 2 for a in y1))
+    mag2 = math.sqrt(sum(b ** 2 for b in y2))
+
+    if mag1 == 0 or mag2 == 0:
+        return 0.0
+
+    return dot / (mag1 * mag2)
