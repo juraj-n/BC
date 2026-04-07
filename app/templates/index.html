@@ -56,7 +56,8 @@
                         </div>
 
                         <form action="{{ url_for('main.delete_spectra', spectrum_name=spectrum_name) }}" method="POST">
-                            <button type=" submit" class="spectra-del-btn" title="Delete {{ spectrum_name }}">
+                            <button type="submit" class="spectra-del-btn" title="Delete {{ spectrum_name }}"
+                                aria-label="Vymazať {{ spectrum_name }}">
                                 X
                             </button>
                         </form>
