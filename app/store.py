@@ -20,7 +20,6 @@ class DataStore:
 
     def delete(self, name):
         self.spectra.pop(name, None)
-        self.selected_samples.pop(name, None)
         self.comparison = None
 
 data = DataStore()
