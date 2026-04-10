@@ -17,10 +17,10 @@
         {% if comparison %}
         <main class="content">
             <div class="cont-section">
-                {% include 'partials/_tables.html' %}
+                {% include 'partials/_graphs.html' %}
             </div>
             <div class="cont-section">
-                {% include 'partials/_graphs.html' %}
+                {% include 'partials/_tables.html' %}
             </div>
         </main>
         {% else %}
@@ -28,6 +28,7 @@
             <p> [Nahrajte vzorky a spustite analýzu pre zobrazenie výsledkov.] </p>
         </main>
         {% endif %}
+
     </div>
 
     {% block scripts %}
