@@ -112,6 +112,18 @@ def calculate_euclidean_dist_matrix(spectra, selected):
     
     return matrix
 
+def calculate_SAM_matrix(spectra, selected):
+    matrix = []
+    for a in selected:
+        row = []
+        for b in selected:
+            y1 = spectra[a].z_score["y"]
+            y2 = spectra[b].z_score["y"]
+            row.append(round(_spectral_angle_mapper(y1, y2), 3))
+        matrix.append(row)
+    
+    return matrix
+
 # TODO: CHANGE !!!
 # TODO: length = min(len(y1), len(y2))
 # TODO: y1, y2 = y1[:length], y2[:length]
@@ -149,3 +161,9 @@ def _cosine_similarity(y1, y2):
         return 0.0
 
     return dot / (mag1 * mag2)
+
+def _spectral_angle_mapper(y1, y2):
+    cos_sim = _cosine_similarity(y1, y2)
+    cos_sim = max(-1.0, min(1.0, cos_sim))
+
+    return math.acos(cos_sim)

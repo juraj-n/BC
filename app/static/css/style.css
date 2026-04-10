@@ -263,6 +263,14 @@ body {
     cursor: default;
 }
 
+.sam-cell {
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+    padding: 10px;
+    background-color: var(--light-purple);
+}
+
 .switch-btns {
     display: flex;
     justify-content: end;

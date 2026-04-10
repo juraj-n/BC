@@ -79,6 +79,7 @@
                             <th class="comp-header"> Pearsonova korelácia </th>
                             <th class="comp-header"> Kosínová podobnosť </th>
                             <th class="comp-header"> Euklidovská vzdialenosť </th>
+                            <th class="comp-header"> SAM </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -94,6 +95,9 @@
                             <td class="euclidean-cell" style="--distance: {{ comparison.metrics.euclidean[0][1] }}">
                                 {{ comparison.metrics.euclidean[0][1] }}
                             </td>
+                            <td class="sam-cell">
+                                {{ comparison.metrics.sam[0][1] }}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -104,6 +108,7 @@
                     <button onclick="switchTable('pearson')"> Pearsonova korelácia </button>
                     <button onclick="switchTable('cosine')"> Kosínová podobnosť </button>
                     <button onclick="switchTable('euclidean')"> Euklidovská vzdialenosť </button>
+                    <button onclick="switchTable('sam')"> SAM </button>
                 </div>
 
                 <div id="table-pearson" class="table-container">
@@ -178,6 +183,33 @@
                                 {% for distance in row %}
                                 <td class="euclidean-cell" style="--distance: {{ distance }}">
                                     {{ distance }}
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
+
+                <div id="table-sam" class="table-container hidden">
+                    {% if comparison and comparison.metrics.sam | length > 0 %}
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th class="comp-header"></th>
+                                {% for name in comparison.samples %}
+                                <th class="comp-header">{{ name }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in comparison.metrics.sam %}
+                            <tr>
+                                <th class="comp-header">{{ comparison.samples[loop.index0] }}</th>
+                                {% for val in row %}
+                                <td class="sam-cell">
+                                    {{ val }}
                                 </td>
                                 {% endfor %}
                             </tr>
