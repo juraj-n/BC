@@ -11,7 +11,7 @@ def home():
     z_score = {name: data.spectra[name].z_score for name in data.comparison.samples} if data.comparison else {}
     l1      = {name: data.spectra[name].l1 for name in data.comparison.samples} if data.comparison else {}
 
-    return render_template("index.html",
+    return render_template("base.html",
                            spectra=data.spectra,
                            comparison=data.comparison,
                            raw_selected=raw,

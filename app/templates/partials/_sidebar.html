@@ -1,0 +1,51 @@
+<aside class="sidebar">
+    <form id="compare-form" action="{{ url_for('main.run_analysis') }}" method="POST">
+        <button type="submit" class="side-analyse-btn"> Spustiť Analýzu </button>
+    </form>
+
+    <div class="side-section">
+        <h2> VÝBER DÁT </h2>
+        <div class="side-btn-group">
+            <form class="side-upload side-upload-form" action="{{ url_for('main.upload_csv') }}" method="POST"
+                enctype="multipart/form-data">
+                <label for="file-input"> Nahrať CSV Súbory </label>
+                <input type="file" id="file-input" name="files" multiple hidden accept=".csv"
+                    onchange="this.form.submit()">
+            </form>
+
+            <button class="side-upload side-upload-btn"> Použiť Databázu </button>
+        </div>
+    </div>
+
+    <div class="side-section">
+        <div class="spectra-check-controls">
+            <h2> VZORKY </h2>
+            <div>
+                <button type="button" class="check-btn" onclick="setAllCheckboxes(true)"> Všetky </button>
+                <button type="button" class="check-btn" onclick="setAllCheckboxes(false)"> Žiadne </button>
+            </div>
+        </div>
+        <div class="spectra-list">
+            {% for spectrum_name in spectra.keys() %}
+            <div class="spectra-list-item">
+                <div class="spectra-item-info">
+                    <label>
+                        <input type="checkbox" name="selected" value="{{ spectrum_name }}" form="compare-form"
+                            class="spectra-checkbox">
+                        <span>
+                            {{ spectrum_name }}
+                        </span>
+                    </label>
+                </div>
+
+                <form action="{{ url_for('main.delete_spectra', spectrum_name=spectrum_name) }}" method="POST">
+                    <button type="submit" class="spectra-del-btn" title="Delete {{ spectrum_name }}"
+                        aria-label="Vymazať {{ spectrum_name }}">
+                        X
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</aside>
