@@ -81,8 +81,8 @@ def calculate_pearson_matrix(spectra, selected):
     for a in selected:
         row = []
         for b in selected:
-            y1 = spectra[a].min_max["y"]
-            y2 = spectra[b].min_max["y"]
+            y1 = spectra[a].z_score["y"]
+            y2 = spectra[b].z_score["y"]
             row.append(round(_pearson_coeff(y1, y2), 3))
         matrix.append(row)
     
