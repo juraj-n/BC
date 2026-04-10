@@ -14,6 +14,7 @@
 
         {% include 'partials/_sidebar.html' %}
 
+        {% if comparison %}
         <main class="content">
             <div class="cont-section">
                 {% include 'partials/_tables.html' %}
@@ -22,6 +23,11 @@
                 {% include 'partials/_graphs.html' %}
             </div>
         </main>
+        {% else %}
+        <main class="content main-placeholder">
+            <p> [Nahrajte vzorky a spustite analýzu pre zobrazenie výsledkov.] </p>
+        </main>
+        {% endif %}
     </div>
 
     {% block scripts %}
