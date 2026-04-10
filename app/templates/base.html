@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Porovnávanie spektier </title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modal.css') }}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 
@@ -31,6 +32,11 @@
 
     </div>
 
+    <div id="modal-detail" class="modal-detail">
+        <span class="close-detail">&times;</span>
+        {% include 'partials/_detailModal.html' %}
+    </div>
+
     {% block scripts %}
     <script>
         const rawSpectraData = JSON.parse('{{ raw_selected | tojson | safe }}');
@@ -43,6 +49,7 @@
     <script src="{{ url_for('static', filename='js/graphSwitch.js') }}"></script>
     <script src="{{ url_for('static', filename='js/tableSwitch.js') }}"></script>
     <script src="{{ url_for('static', filename='js/checkboxSetter.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/detailModal.js') }}"></script>
     {% endblock %}
 </body>
 
