@@ -1,8 +1,9 @@
 class SpectrumData:
-    def __init__(self, raw, min_max, z_score):
+    def __init__(self, raw, min_max, z_score, l1):
         self.raw = raw
         self.min_max = min_max
         self.z_score = z_score
+        self.l1 = l1
 
 class ComparisonData:
     def __init__(self):
@@ -14,8 +15,8 @@ class DataStore:
         self.spectra = {}
         self.comparison = None
     
-    def add(self, name, raw, min_max, z_score):
-        self.spectra[name] = SpectrumData(raw, min_max, z_score)
+    def add(self, name, raw, min_max, z_score, l1):
+        self.spectra[name] = SpectrumData(raw, min_max, z_score, l1)
         self.comparison = None
 
     def delete(self, name):

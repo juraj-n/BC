@@ -58,6 +58,24 @@ def z_score_normalize(data): # Normalizácia podľa smerodajnej odchýlky
         "y": norm_y
     }
 
+def area_normalize(data):
+    y_values = data["y"]
+
+    if len(y_values) < 2:
+        return data
+    
+    total_area = sum(abs(y) for y in y_values)
+
+    if total_area == 0:
+        norm_y = [0 for value in y_values]
+    else:
+        norm_y = [y / total_area for y in y_values]
+
+    return {
+        "x": data["x"],
+        "y": norm_y
+    }
+
 def calculate_pearson_matrix(spectra, selected):
     matrix = []
     for a in selected:

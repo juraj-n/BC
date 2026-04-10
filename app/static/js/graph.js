@@ -68,3 +68,6 @@ if (typeof zScoreData !== "undefined") {
 if (typeof normSpectraData !== "undefined") {
     createPlot("graph-min-max", normSpectraData, "Normalizované dáta (Min-Max)");
 }
+if (typeof l1Data !== "undefined") {
+    createPlot("graph-l1", l1Data, "Normalizované dáta (L1 / Area)");
+}
