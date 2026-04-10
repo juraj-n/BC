@@ -18,7 +18,7 @@ function createZoneShapes() {
         x1: zone.x1,
         y0: 0,
         y1: 1,
-        fillcolor: i % 2 === 0 ? "rgba(255,255,255,0.04)" : "rgba(134, 134, 134, 0.08)",
+        fillcolor: i % 2 === 0 ? "rgba(255,255,255,0.04)" : "rgba(50, 50, 50, 0.1)",
         line: { width: 0 }
     }));
 }
