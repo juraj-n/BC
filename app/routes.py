@@ -13,13 +13,18 @@ def inject_sidebar_data():
 def home():
     return render_template("home.html")
 
-@main.route("/multi_analysis", methods=["POST"])
-def multi_analysis():
+@main.route("/run_analysis", methods=["POST"])
+def run_analysis():
     selected_names = request.form.getlist("selected")
-    if len(selected_names) < 2:
+    if (len(selected_names) < 2):
         return redirect(url_for("main.home"))
-    if len(selected_names) == 2:
-        return redirect(url_for("main.detail_analysis"))
+    if (len(selected_names) == 2):
+        return redirect(url_for("main.detail_analysis", selected=selected_names))
+    return redirect(url_for("main.multi_analysis", selected=selected_names))
+
+@main.route("/multi_analysis", methods=["GET"])
+def multi_analysis():
+    selected_names = request.args.getlist("selected")
 
     comparison = ComparisonData()
     comparison.samples = selected_names
