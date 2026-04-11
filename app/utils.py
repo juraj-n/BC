@@ -58,7 +58,7 @@ def z_score_normalize(data): # Normalizácia podľa smerodajnej odchýlky
         "y": norm_y
     }
 
-def area_normalize(data):
+def l1_normalize(data):
     y_values = data["y"]
 
     if len(y_values) < 2:

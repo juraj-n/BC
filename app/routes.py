@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from .utils import parse_csv, min_max_normalize, z_score_normalize, area_normalize, calculate_pearson_matrix, calculate_euclidean_dist_matrix, calculate_cosine_similarity_matrix, calculate_SAM_matrix
+from .utils import parse_csv, min_max_normalize, z_score_normalize, l1_normalize, calculate_pearson_matrix, calculate_euclidean_dist_matrix, calculate_cosine_similarity_matrix, calculate_SAM_matrix
 from .store import ComparisonData, data
 
 main = Blueprint("main", __name__)
@@ -46,7 +46,7 @@ def upload_csv():
 
         name = file.filename.removesuffix(".csv")
         raw_data = parse_csv(file)
-        data.add(name, raw_data, min_max_normalize(raw_data), z_score_normalize(raw_data), area_normalize(raw_data))
+        data.add(name, raw_data, min_max_normalize(raw_data), z_score_normalize(raw_data), l1_normalize(raw_data))
 
     return redirect(url_for("main.home"))
 
