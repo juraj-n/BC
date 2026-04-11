@@ -1,4 +1,4 @@
-import csv, io, statistics, math
+import csv, io, statistics
 import numpy as np
 
 def parse_csv(file):

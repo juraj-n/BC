@@ -4,7 +4,7 @@ function switchGraph(graphID) {
         section.classList.add("hidden")
     });
 
-    const selected = document.getElementById("section-" + graphID);
+    const selected = document.getElementById("plot-" + graphID);
     if (selected) {
         selected.classList.remove("hidden");
     }

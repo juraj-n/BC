@@ -34,15 +34,15 @@ def multi_analysis():
 
     return render_template("analysis.html",
                            samples=selected_names,
-                           raw=raw,
-                           z_score=z_score,
-                           pearson=pearson,
-                           sam=sam
-                           )
+                           raw=raw, z_score=z_score,
+                           pearson=pearson, sam=sam)
 
 @main.route("/detail_analysis", methods=["GET", "POST"])
 def detail_analysis():
-    return render_template("detail.html")
+    selected_names = request.args.getlist("selected")
+
+    return render_template("detail.html",
+                           samples=selected_names)
 
 @main.route("/upload_csv", methods=["POST"])
 def upload_csv():

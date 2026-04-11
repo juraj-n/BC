@@ -1,13 +1,31 @@
 {% extends 'layout.html' %}
+{% from 'macros/multi_sample_table.html' import multi_sample_table %}
 
 {% block content %}
 
-{% if samples and samples|length >= 2 %}
+{% if samples and samples | length >= 2 %}
 <div class="cont-section">
-    {% include 'partials/_graphs.html' %}
+    <div class="switch-btns">
+        <button onclick="switchGraph('raw')"> Pôvodné </button>
+        <button onclick="switchGraph('zscore')"> Z Score </button>
+    </div>
+
+    <div id="plot-raw" class="graph-container">
+        <div class="spectra-graph" id="graph-raw"></div>
+    </div>
+
+    <div id="plot-zscore" class="graph-container hidden">
+        <div class="spectra-graph" id="graph-zscore"></div>
+    </div>
 </div>
+
 <div class="cont-section">
-    {% include 'partials/_matrix_tables.html' %}
+    <div class="switch-btns">
+        <button onclick="switchTable('pearson')"> Pearsonova korelácia </button>
+        <button onclick="switchTable('sam')"> SAM </button>
+    </div>
+    {{ multi_sample_table(samples, pearson, 'pearson', 'pearson-cell') }}
+    {{ multi_sample_table(samples, sam, 'sam', hidden=true) }}
 </div>
 {% endif %}
 
