@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+{% if comparison %}
+<div class="cont-section">
+    {% include 'partials/_graphs.html' %}
+</div>
+<div class="cont-section">
+    {% include 'partials/_tables.html' %}
+</div>
+
+{% else %}
+
+<p class="main-placeholder"></p>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<script>
+    const rawSpectraData = JSON.parse('{{ raw_selected | tojson | safe }}');
+    const zScoreData = JSON.parse('{{ z_score_selected | tojson | safe }}');
+    const minMaxData = JSON.parse('{{ min_max_selected | tojson | safe }}');
+    const l1Data = JSON.parse('{{ l1_selected | tojson | safe }}');
+</script>
+
+<script src="{{ url_for('static', filename='js/graph.js') }}"></script>
+<script src="{{ url_for('static', filename='js/graphSwitch.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tableSwitch.js') }}"></script>
+{% endblock %}

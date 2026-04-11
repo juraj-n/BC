@@ -25,10 +25,10 @@ body {
 
 /* Sidebar */
 .sidebar {
-    display: flex;
-    flex-direction: column;
     flex: 0 0 18%;
     max-width: 18%;
+    display: flex;
+    flex-direction: column;
     position: sticky;
     top: 0;
     box-sizing: border-box;
@@ -176,8 +176,8 @@ body {
 
 /* Main Content */
 .content {
-    flex-grow: 1;
-    min-width: 0;
+    flex: 0 0 82%;
+    min-width: 82%;
     min-height: 100vh;
     background-color: var(--bg-light);
 }
@@ -186,9 +186,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
+}
+
+.placeholder-txt {
     font-size: 1.2rem;
     color: gray;
     opacity: 0.6;
+    padding-bottom: 10%;
 }
 
 .cont-section {

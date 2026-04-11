@@ -49,7 +49,9 @@
                 <th class="comp-header">{{ comparison.samples[loop.index0] }}</th>
                 {% for value in row %}
                 <td class="cell {{ cell_class }}" style="--value: {{ value }}">
-                    {{ value }}
+                    <a href="{{ url_for('main.detail_analysis', spectra_a=row_name, spectra_b=col_name) }}">
+                        {{ value }}
+                    </a>
                 </td>
                 {% endfor %}
             </tr>

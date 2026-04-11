@@ -5,28 +5,22 @@ from .store import ComparisonData, data
 
 main = Blueprint("main", __name__)
 
+@main.context_processor
+def inject_sidebar_data():
+    return dict(spectra=data.spectra)
+
 @main.route("/")
 def home():
-    raw     = {name: data.spectra[name].raw for name in data.comparison.samples} if data.comparison else {}
-    min_max = {name: data.spectra[name].min_max for name in data.comparison.samples} if data.comparison else {}
-    z_score = {name: data.spectra[name].z_score for name in data.comparison.samples} if data.comparison else {}
-    l1      = {name: data.spectra[name].l1 for name in data.comparison.samples} if data.comparison else {}
+    return render_template("home.html")
 
-    return render_template("base.html",
-                           spectra=data.spectra,
-                           comparison=data.comparison,
-                           raw_selected=raw,
-                           min_max_selected=min_max,
-                           z_score_selected=z_score,
-                           l1_selected = l1
-                           )
-
-@main.route("/run_analysis", methods=["POST"])
-def run_analysis():
+@main.route("/multi_analysis", methods=["POST"])
+def multi_analysis():
     selected_names = request.form.getlist("selected")
     if len(selected_names) < 2:
         return redirect(url_for("main.home"))
-    
+    if len(selected_names) == 2:
+        return redirect(url_for("main.detail_analysis"))
+
     comparison = ComparisonData()
     comparison.samples = selected_names
 
@@ -37,7 +31,23 @@ def run_analysis():
 
     data.comparison = comparison
 
-    return redirect(url_for("main.home"))
+    raw     = {name: data.spectra[name].raw for name in data.comparison.samples} if data.comparison else {}
+    min_max = {name: data.spectra[name].min_max for name in data.comparison.samples} if data.comparison else {}
+    z_score = {name: data.spectra[name].z_score for name in data.comparison.samples} if data.comparison else {}
+    l1      = {name: data.spectra[name].l1 for name in data.comparison.samples} if data.comparison else {}
+
+
+    return render_template("analysis.html",
+                           comparison=data.comparison,
+                           raw_selected=raw,
+                           min_max_selected=min_max,
+                           z_score_selected=z_score,
+                           l1_selected = l1
+                           )
+
+@main.route("/detail_analysis", methods=["GET", "POST"])
+def detail_analysis():
+    return render_template("detail.html")
 
 @main.route("/upload_csv", methods=["POST"])
 def upload_csv():
