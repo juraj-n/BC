@@ -1,4 +1,5 @@
 import csv, io, statistics, math
+import numpy as np
 
 def parse_csv(file):
     #TODO: Propper CSV parsing
@@ -81,53 +82,49 @@ def calculate_matrix(spectra, selected, metric_fn, normalization="z_score"):
     for a in selected:
         row = []
         for b in selected:
-            y1 = getattr(spectra[a], normalization)["y"]
-            y2 = getattr(spectra[b], normalization)["y"]
-            row.append(round(metric_fn(y1, y2), 3))
+            x_a = getattr(spectra[a], normalization)["x"]
+            y_a = getattr(spectra[a], normalization)["y"]
+            x_b = getattr(spectra[b], normalization)["x"]
+            y_b = getattr(spectra[b], normalization)["y"]
+            row.append(round(metric_fn(x_a, y_a, x_b, y_b), 3))
         matrix.append(row)
 
     return matrix
 
-# TODO: CHANGE !!!
-# TODO: length = min(len(y1), len(y2))
-# TODO: y1, y2 = y1[:length], y2[:length]
+def pearson_coeff(x1, y1, x2, y2):
+    y1, y2 =_align(x1, y1, x2, y2)
+    
+    r = np.corrcoef(y1, y2)[0, 1]
+    
+    return 0.0 if np.isnan(r) else float(r)
 
-def pearson_coeff(y1, y2):
-    length = min(len(y1), len(y2))
-    y1, y2 = y1[:length], y2[:length]
+def euclidean_distance(x1, y1, x2, y2):
+    y1, y2 = _align(x1, y1, x2, y2)
 
-    mu1 = statistics.mean(y1)
-    mu2 = statistics.mean(y2)
+    return float(np.linalg.norm(y1 - y2))
 
-    numerator = sum((a - mu1) * (b - mu2) for a, b in zip(y1, y2))
-    denominator = math.sqrt(sum((a - mu1)**2 for a in y1) * sum((b - mu2)**2 for b in y2))
+def cosine_similarity(x1, y1, x2, y2):
+    y1, y2 = _align(x1, y1, x2, y2)
 
-    if denominator == 0:
-        return 0
-    else:
-        return numerator / denominator
-
-def euclidean_distance(y1, y2):
-    length = min(len(y1), len(y2))
-    y1, y2 = y1[:length], y2[:length]
-
-    return math.sqrt(sum((a - b) ** 2 for a, b in zip(y1, y2)))
-
-def cosine_similarity(y1, y2):
-    length = min(len(y1), len(y2))
-    y1, y2 = y1[:length], y2[:length]
-
-    dot = sum(a * b for a, b in zip(y1, y2))
-    mag1 = math.sqrt(sum(a ** 2 for a in y1))
-    mag2 = math.sqrt(sum(b ** 2 for b in y2))
+    mag1, mag2 = np.linalg.norm(y1), np.linalg.norm(y2)
 
     if mag1 == 0 or mag2 == 0:
         return 0.0
+    
+    return float(np.dot(y1, y2) / (mag1 * mag2))
 
-    return dot / (mag1 * mag2)
+def spectral_angle_mapper(x1, y1, x2, y2):
+    cos_sim = cosine_similarity(x1, y1, x2, y2)
+    return float(np.arccos(np.clip(cos_sim, -1.0, 1.0)))
 
-def spectral_angle_mapper(y1, y2):
-    cos_sim = cosine_similarity(y1, y2)
-    cos_sim = max(-1.0, min(1.0, cos_sim))
+def _align(x1, y1, x2, y2):
+    x1, y1 = np.asarray(x1, dtype=float), np.asarray(y1, dtype=float)
+    x2, y2 = np.asarray(x2, dtype=float), np.asarray(y2, dtype=float)
 
-    return math.acos(cos_sim)
+    min_wavelen = max(x1[0], x2[0])
+    max_wavelen = min(x1[-1], x2[-1])
+    n_points = max(len(x1), len(x2))
+
+    x_common = np.linspace(min_wavelen, max_wavelen, n_points)
+
+    return np.interp(x_common, x1, y1), np.interp(x_common, x2, y2)
