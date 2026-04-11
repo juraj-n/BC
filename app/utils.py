@@ -76,59 +76,23 @@ def l1_normalize(data):
         "y": norm_y
     }
 
-def calculate_pearson_matrix(spectra, selected):
+def calculate_matrix(spectra, selected, metric_fn, normalization="z_score"):
     matrix = []
     for a in selected:
         row = []
         for b in selected:
-            y1 = spectra[a].z_score["y"]
-            y2 = spectra[b].z_score["y"]
-            row.append(round(_pearson_coeff(y1, y2), 3))
+            y1 = getattr(spectra[a], normalization)["y"]
+            y2 = getattr(spectra[b], normalization)["y"]
+            row.append(round(metric_fn(y1, y2), 3))
         matrix.append(row)
-    
-    return matrix
 
-def calculate_cosine_similarity_matrix(spectra, selected):
-    matrix = []
-    for a in selected:
-        row = []
-        for b in selected:
-            y1 = spectra[a].z_score["y"]
-            y2 = spectra[b].z_score["y"]
-            row.append(round(_cosine_similarity(y1, y2), 3))
-        matrix.append(row)
-    
-    return matrix
-
-def calculate_euclidean_dist_matrix(spectra, selected):
-    matrix = []
-    for a in selected:
-        row = []
-        for b in selected:
-            y1 = spectra[a].z_score["y"]
-            y2 = spectra[b].z_score["y"]
-            row.append(round(_euclidean_distance(y1, y2), 3))
-        matrix.append(row)
-    
-    return matrix
-
-def calculate_SAM_matrix(spectra, selected):
-    matrix = []
-    for a in selected:
-        row = []
-        for b in selected:
-            y1 = spectra[a].z_score["y"]
-            y2 = spectra[b].z_score["y"]
-            row.append(round(_spectral_angle_mapper(y1, y2), 3))
-        matrix.append(row)
-    
     return matrix
 
 # TODO: CHANGE !!!
 # TODO: length = min(len(y1), len(y2))
 # TODO: y1, y2 = y1[:length], y2[:length]
 
-def _pearson_coeff(y1, y2):
+def pearson_coeff(y1, y2):
     length = min(len(y1), len(y2))
     y1, y2 = y1[:length], y2[:length]
 
@@ -143,13 +107,13 @@ def _pearson_coeff(y1, y2):
     else:
         return numerator / denominator
 
-def _euclidean_distance(y1, y2):
+def euclidean_distance(y1, y2):
     length = min(len(y1), len(y2))
     y1, y2 = y1[:length], y2[:length]
 
     return math.sqrt(sum((a - b) ** 2 for a, b in zip(y1, y2)))
 
-def _cosine_similarity(y1, y2):
+def cosine_similarity(y1, y2):
     length = min(len(y1), len(y2))
     y1, y2 = y1[:length], y2[:length]
 
@@ -162,8 +126,8 @@ def _cosine_similarity(y1, y2):
 
     return dot / (mag1 * mag2)
 
-def _spectral_angle_mapper(y1, y2):
-    cos_sim = _cosine_similarity(y1, y2)
+def spectral_angle_mapper(y1, y2):
+    cos_sim = cosine_similarity(y1, y2)
     cos_sim = max(-1.0, min(1.0, cos_sim))
 
     return math.acos(cos_sim)

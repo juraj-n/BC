@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from .utils import parse_csv, min_max_normalize, z_score_normalize, l1_normalize, calculate_pearson_matrix, calculate_euclidean_dist_matrix, calculate_cosine_similarity_matrix, calculate_SAM_matrix
+from .utils import parse_csv, min_max_normalize, z_score_normalize, l1_normalize
+from .utils import calculate_matrix, pearson_coeff, cosine_similarity, euclidean_distance, spectral_angle_mapper
 from .store import ComparisonData, data
 
 main = Blueprint("main", __name__)
@@ -29,10 +30,10 @@ def run_analysis():
     comparison = ComparisonData()
     comparison.samples = selected_names
 
-    comparison.metrics["pearson"] = calculate_pearson_matrix(data.spectra, selected_names)
-    comparison.metrics["euclidean"] = calculate_euclidean_dist_matrix(data.spectra, selected_names)
-    comparison.metrics["cosine"] = calculate_cosine_similarity_matrix(data.spectra, selected_names)
-    comparison.metrics["sam"] = calculate_SAM_matrix(data.spectra, selected_names)
+    comparison.metrics["pearson"] = calculate_matrix(data.spectra, selected_names, pearson_coeff)
+    comparison.metrics["euclidean"] = calculate_matrix(data.spectra, selected_names, euclidean_distance)
+    comparison.metrics["cosine"] = calculate_matrix(data.spectra, selected_names, cosine_similarity)
+    comparison.metrics["sam"] = calculate_matrix(data.spectra, selected_names, spectral_angle_mapper)
 
     data.comparison = comparison
 
