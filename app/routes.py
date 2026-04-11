@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from .utils import parse_csv, min_max_normalize, z_score_normalize, l1_normalize
+from .utils import parse_csv, min_max_normalize, z_score_normalize, l1_normalize, align, create_residual, zones_coeffs
 from .utils import calculate_matrix, pearson_coeff, cosine_similarity, euclidean_distance, spectral_angle_mapper
 from .store import data
 
@@ -41,8 +41,21 @@ def multi_analysis():
 def detail_analysis():
     selected_names = request.args.getlist("selected")
 
+    raw     = {name: data.spectra[name].raw     for name in selected_names}
+    z_score = {name: data.spectra[name].z_score for name in selected_names}
+    l1      = {name: data.spectra[name].l1      for name in selected_names}
+    min_max = {name: data.spectra[name].min_max for name in selected_names}
+
+    name_a, name_b = selected_names[0], selected_names[1]
+    residual = create_residual(l1, name_a, name_b)
+
+    zone_metrics = zones_coeffs(z_score, l1, min_max, name_a, name_b)
+
     return render_template("detail.html",
-                           samples=selected_names)
+                           samples=selected_names,
+                           raw=raw, z_score=z_score, l1=l1, min_max=min_max,
+                           residual=residual,
+                           zone_metrics=zone_metrics)
 
 @main.route("/upload_csv", methods=["POST"])
 def upload_csv():

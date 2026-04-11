@@ -1,6 +1,17 @@
 import csv, io, statistics
 import numpy as np
 
+ZONES = [
+    {"name": "Z1", "x0": 250, "x1": 300},
+    {"name": "Z2", "x0": 300, "x1": 325},
+    {"name": "Z3", "x0": 325, "x1": 345},
+    {"name": "Z4", "x0": 345, "x1": 380},
+    {"name": "Z5", "x0": 380, "x1": 410},
+    {"name": "Z6", "x0": 410, "x1": 450},
+    {"name": "Z7", "x0": 450, "x1": 500},
+    {"name": "Z8", "x0": 500, "x1": 550},
+]
+
 def parse_csv(file):
     #TODO: Propper CSV parsing
     stream = io.StringIO(file.stream.read().decode("UTF8"), newline = None)
@@ -92,19 +103,19 @@ def calculate_matrix(spectra, selected, metric_fn, normalization="z_score"):
     return matrix
 
 def pearson_coeff(x1, y1, x2, y2):
-    y1, y2 =_align(x1, y1, x2, y2)
+    _, y1, y2 =align(x1, y1, x2, y2)
     
     r = np.corrcoef(y1, y2)[0, 1]
     
     return 0.0 if np.isnan(r) else float(r)
 
 def euclidean_distance(x1, y1, x2, y2):
-    y1, y2 = _align(x1, y1, x2, y2)
+    _, y1, y2 = align(x1, y1, x2, y2)
 
     return float(np.linalg.norm(y1 - y2))
 
 def cosine_similarity(x1, y1, x2, y2):
-    y1, y2 = _align(x1, y1, x2, y2)
+    _, y1, y2 = align(x1, y1, x2, y2)
 
     mag1, mag2 = np.linalg.norm(y1), np.linalg.norm(y2)
 
@@ -117,7 +128,7 @@ def spectral_angle_mapper(x1, y1, x2, y2):
     cos_sim = cosine_similarity(x1, y1, x2, y2)
     return float(np.arccos(np.clip(cos_sim, -1.0, 1.0)))
 
-def _align(x1, y1, x2, y2):
+def align(x1, y1, x2, y2):
     x1, y1 = np.asarray(x1, dtype=float), np.asarray(y1, dtype=float)
     x2, y2 = np.asarray(x2, dtype=float), np.asarray(y2, dtype=float)
 
@@ -127,4 +138,70 @@ def _align(x1, y1, x2, y2):
 
     x_common = np.linspace(min_wavelen, max_wavelen, n_points)
 
-    return np.interp(x_common, x1, y1), np.interp(x_common, x2, y2)
+    return x_common, np.interp(x_common, x1, y1), np.interp(x_common, x2, y2)
+
+def create_residual(l1, name_a, name_b):
+    x_common, y_a_aligned, y_b_aligned = align(
+        l1[name_a]["x"], l1[name_a]["y"],
+        l1[name_b]["x"], l1[name_b]["y"]
+    )
+    return {
+        "Rozdiel": {
+            "x": x_common.tolist(),
+            "y": (y_a_aligned - y_b_aligned).tolist(),
+            "color": "red",
+            "dash": "dash",
+            "width": 3
+        },
+        name_a: l1[name_a],
+        name_b: l1[name_b]
+    }
+
+def split_by_zones(data):
+    x = np.array(data["x"])
+    y = np.array(data["y"])
+
+    result = {}
+    for zone in ZONES:
+        mask = (x >= zone["x0"]) & (x < zone["x1"])
+        result[zone["name"]] = {
+            "x": x[mask],
+            "y": y[mask]
+        }
+    return result
+
+def zones_coeffs(z_score, l1, min_max, name_a, name_b):
+    z_score_zones_a = split_by_zones(z_score[name_a])
+    z_score_zones_b = split_by_zones(z_score[name_b])
+
+    l1_zones_a = split_by_zones(l1[name_a])
+    l1_zones_b = split_by_zones(l1[name_b])
+
+    m_zones_a = split_by_zones(min_max[name_a])
+    m_zones_b = split_by_zones(min_max[name_b])
+
+    results = []
+    for zone_name in z_score_zones_a:
+        z_a = z_score_zones_a[zone_name]
+        z_b = z_score_zones_b[zone_name]
+
+        l_a = l1_zones_a[zone_name]
+        l_b = l1_zones_b[zone_name]
+
+        m_a = m_zones_a[zone_name]
+        m_b = m_zones_b[zone_name]
+
+        r = pearson_coeff(z_a["x"], z_a["y"], z_b["x"], z_b["y"])
+        e = euclidean_distance(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
+        c = cosine_similarity(z_a["x"], z_a["y"], z_b["x"], z_b["y"])
+        s = spectral_angle_mapper(m_a["x"], m_a["y"], m_b["x"], m_b["y"])
+
+        results.append({
+            "name": zone_name,
+            "pearson": r,
+            "euclidean": e,
+            "cosine": c,
+            "sam": s
+            })
+
+    return results

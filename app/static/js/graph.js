@@ -31,7 +31,12 @@ function createPlot(elementId, spectraData, plotTitle) {
             x: data.x,
             y: data.y,
             mode: "lines",
-            name: filename
+            name: filename,
+            line: {
+                color: data.color || undefined,
+                dash: data.dash || "solid",
+                width: data.width || 1.5
+            }
         });
     }
 
@@ -70,4 +75,7 @@ if (typeof minMaxData !== "undefined") {
 }
 if (typeof l1Data !== "undefined") {
     createPlot("graph-l1", l1Data, "Normalizované dáta (L1 / Area)");
+}
+if (typeof residual !== "undefined") {
+    createPlot("graph-residual", residual, "Rozdielový graf")
 }

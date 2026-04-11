@@ -202,6 +202,14 @@ body {
     margin: 0 auto;
 }
 
+.cont-section h2 {
+    display: inline-block;
+    color: var(--primary-purple);
+    border-bottom: var(--accent-purple) 3px solid;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
 /* Main Components */
 .table-container {
     overflow-x: auto;
@@ -290,7 +298,7 @@ body {
 
 .switch-btns {
     display: flex;
-    justify-content: center;
+    justify-content: end;
     gap: 5px;
     margin-bottom: 5px;
 }

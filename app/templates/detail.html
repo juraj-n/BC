@@ -2,10 +2,80 @@
 
 {% block content %}
 
-<a href="{{ url_for('main.home') }}">← Späť</a>
-
 <div class="cont-section">
-    <p>TEST DETAIL</p>
+    <h2> Štatistická podobnosť podľa zón </h2>
+    <table class="comp-table">
+        <thead>
+            <tr>
+                <th class="comp-header"></th>
+                <th class="comp-header"> Pearsonova Korelácia </th>
+                <th class="comp-header"> Euklidovská Vzdialenosť </th>
+                <th class="comp-header"> Kosínová Podobnosť </th>
+                <th class="comp-header"> SAM </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for zone in zone_metrics %}
+            <tr>
+                <th class="comp-header">{{ zone.name }}</th>
+                <td class="cell">{{ zone.pearson | round(4) }}</td>
+                <td class="cell">{{ zone.euclidean | round(4) }}</td>
+                <td class="cell">{{ zone.cosine | round(4) }}</td>
+                <td class="cell">{{ zone.sam | round(4) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
+<div class="cont-section">
+    <h2> Rozdiel spektier </h2>
+    <div id="plot-residual">
+        <div class="spectra-graph" id="graph-residual"></div>
+    </div>
+</div>
+
+<div class="cont-section">
+    <h2> Porovnanie spektrálnych priebehov </h2>
+    <div class="switch-btns">
+        <button onclick="switchGraph('raw')"> Pôvodné </button>
+        <button onclick="switchGraph('zscore')"> Z Score </button>
+        <button onclick="switchGraph('l1')"> L1 </button>
+        <button onclick="switchGraph('minmax')"> Min Max </button>
+    </div>
+
+    <div id="plot-raw" class="graph-container">
+        <div class="spectra-graph" id="graph-raw"></div>
+    </div>
+
+    <div id="plot-zscore" class="graph-container hidden">
+        <div class="spectra-graph" id="graph-zscore"></div>
+    </div>
+
+    <div id="plot-l1" class="graph-container hidden">
+        <div class="spectra-graph" id="graph-l1"></div>
+    </div>
+
+    <div id="plot-minmax" class="graph-container hidden">
+        <div class="spectra-graph" id="graph-min-max"></div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+
+<script>
+    const rawData = JSON.parse('{{ raw | tojson | safe }}');
+    const zScoreData = JSON.parse('{{ z_score | tojson | safe }}');
+    const l1Data = JSON.parse('{{ l1 | tojson | safe }}');
+    const minMaxData = JSON.parse('{{ min_max | tojson | safe }}');
+
+    const residual = JSON.parse('{{ residual | tojson | safe }}');
+</script>
+
+<script src="{{ url_for('static', filename='js/graph.js') }}"></script>
+<script src="{{ url_for('static', filename='js/graphSwitch.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tableSwitch.js') }}"></script>
 {% endblock %}
