@@ -1,35 +1,9 @@
+{% from 'macros/tables.html' import multi_sample_table, two_sample_table %}
+
+
 {% if comparison and comparison.samples | length == 2 %}
 
-<table class="comp-table">
-    <thead>
-        <tr>
-            <th class="comp-header"> Vzorka A </th>
-            <th class="comp-header"> Vzorka B </th>
-            <th class="comp-header"> Pearsonova korelácia </th>
-            <th class="comp-header"> Kosínová podobnosť </th>
-            <th class="comp-header"> Euklidovská vzdialenosť </th>
-            <th class="comp-header"> SAM </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td class="comp-second-header">{{ comparison.samples[0] }}</td>
-            <td class="comp-second-header">{{ comparison.samples[1] }}</td>
-            <td class="cell pearson-cell" style="--coeff: {{ comparison.metrics.pearson[0][1] }}">
-                {{ comparison.metrics.pearson[0][1] }}
-            </td>
-            <td class="cell cosine-cell" style="--similarity: {{ comparison.metrics.cosine[0][1] }}">
-                {{ comparison.metrics.cosine[0][1] }}
-            </td>
-            <td class="cell euclidean-cell" style="--distance: {{ comparison.metrics.euclidean[0][1] }}">
-                {{ comparison.metrics.euclidean[0][1] }}
-            </td>
-            <td class="cell sam-cell">
-                {{ comparison.metrics.sam[0][1] }}
-            </td>
-        </tr>
-    </tbody>
-</table>
+{{ two_sample_table(comparison) }}
 
 {% else %}
 
@@ -40,112 +14,9 @@
     <button onclick="switchTable('sam')"> SAM </button>
 </div>
 
-<div id="table-pearson" class="table-container">
-    {% if comparison and comparison.metrics.pearson | length > 0 %}
-    <table class="comp-table">
-        <thead>
-            <tr>
-                <th class="comp-header"></th>
-                {% for name in comparison.samples %}
-                <th class="comp-header">{{ name }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in comparison.metrics.pearson %}
-            <tr>
-                <th class="comp-header">{{ comparison.samples[loop.index0] }}</th>
-                {% for coeff in row %}
-                <td class="cell pearson-cell" style="--coeff: {{ coeff }}">
-                    {{ coeff }}
-                </td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-</div>
-
-<div id="table-cosine" class="table-container hidden">
-    {% if comparison and comparison.metrics.cosine | length > 0 %}
-    <table class="comp-table">
-        <thead>
-            <tr>
-                <th class="comp-header"></th>
-                {% for name in comparison.samples %}
-                <th class="comp-header">{{ name }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in comparison.metrics.cosine %}
-            <tr>
-                <th class="comp-header">{{ comparison.samples[loop.index0] }}</th>
-                {% for similarity in row %}
-                <td class="cell cosine-cell" style="--similarity: {{ similarity }}">
-                    {{ similarity }}
-                </td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-</div>
-
-<div id="table-euclidean" class="table-container hidden">
-    {% if comparison and comparison.metrics.euclidean | length > 0 %}
-    <table class="comp-table">
-        <thead>
-            <tr>
-                <th class="comp-header"></th>
-                {% for name in comparison.samples %}
-                <th class="comp-header">{{ name }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in comparison.metrics.euclidean %}
-            <tr>
-                <th class="comp-header">{{ comparison.samples[loop.index0] }}</th>
-                {% for distance in row %}
-                <td class="cell euclidean-cell" style="--distance: {{ distance }}">
-                    {{ distance }}
-                </td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-</div>
-
-<div id="table-sam" class="table-container hidden">
-    {% if comparison and comparison.metrics.sam | length > 0 %}
-    <table class="comp-table">
-        <thead>
-            <tr>
-                <th class="comp-header"></th>
-                {% for name in comparison.samples %}
-                <th class="comp-header">{{ name }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in comparison.metrics.sam %}
-            <tr>
-                <th class="comp-header">{{ comparison.samples[loop.index0] }}</th>
-                {% for angle in row %}
-                <td class="cell sam-cell" style="--angle: {{ angle }}">
-                    {{ angle }}
-                </td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-</div>
+{{ multi_sample_table(comparison, 'pearson', 'pearson-cell') }}
+{{ multi_sample_table(comparison, 'cosine', 'cosine-cell', hidden=true) }}
+{{ multi_sample_table(comparison, 'euclidean', 'euclidean-cell', hidden=true) }}
+{{ multi_sample_table(comparison, 'sam', 'sam-cell', hidden=true) }}
 
 {% endif %}
