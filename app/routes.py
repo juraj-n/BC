@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from .utils import parse_csv, min_max_normalize, z_score_normalize, l1_normalize
 from .utils import calculate_matrix, pearson_coeff, cosine_similarity, euclidean_distance, spectral_angle_mapper
-from .store import ComparisonData, data
+from .store import data
 
 main = Blueprint("main", __name__)
 
@@ -26,28 +26,18 @@ def run_analysis():
 def multi_analysis():
     selected_names = request.args.getlist("selected")
 
-    comparison = ComparisonData()
-    comparison.samples = selected_names
+    raw     = {name: data.spectra[name].raw     for name in selected_names}
+    z_score = {name: data.spectra[name].z_score for name in selected_names}
 
-    comparison.metrics["pearson"] = calculate_matrix(data.spectra, selected_names, pearson_coeff)
-    comparison.metrics["euclidean"] = calculate_matrix(data.spectra, selected_names, euclidean_distance)
-    comparison.metrics["cosine"] = calculate_matrix(data.spectra, selected_names, cosine_similarity)
-    comparison.metrics["sam"] = calculate_matrix(data.spectra, selected_names, spectral_angle_mapper)
-
-    data.comparison = comparison
-
-    raw     = {name: data.spectra[name].raw for name in data.comparison.samples} if data.comparison else {}
-    min_max = {name: data.spectra[name].min_max for name in data.comparison.samples} if data.comparison else {}
-    z_score = {name: data.spectra[name].z_score for name in data.comparison.samples} if data.comparison else {}
-    l1      = {name: data.spectra[name].l1 for name in data.comparison.samples} if data.comparison else {}
-
+    pearson = calculate_matrix(data.spectra, selected_names, pearson_coeff)
+    sam     = calculate_matrix(data.spectra, selected_names, spectral_angle_mapper)
 
     return render_template("analysis.html",
-                           comparison=data.comparison,
-                           raw_selected=raw,
-                           min_max_selected=min_max,
-                           z_score_selected=z_score,
-                           l1_selected = l1
+                           samples=selected_names,
+                           raw=raw,
+                           z_score=z_score,
+                           pearson=pearson,
+                           sam=sam
                            )
 
 @main.route("/detail_analysis", methods=["GET", "POST"])

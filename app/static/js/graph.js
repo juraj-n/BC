@@ -59,8 +59,8 @@ function createPlot(elementId, spectraData, plotTitle) {
     Plotly.newPlot(elementId, traces, layout, config);
 }
 
-if (typeof rawSpectraData !== "undefined") {
-    createPlot("graph-raw", rawSpectraData, "Pôvodné dáta");
+if (typeof rawData !== "undefined") {
+    createPlot("graph-raw", rawData, "Pôvodné dáta");
 }
 if (typeof zScoreData !== "undefined") {
     createPlot("graph-zscore", zScoreData, "Normalizované dáta (Podľa smerodajnej odchýlky / Z-Score)");

@@ -1,0 +1,30 @@
+{% macro multi_sample_table(samples, matrix, metric_key, cell_class, hidden=false) %}
+<div id="table-{{ metric_key }}" class="table-container {% if hidden %} hidden {% endif %}">
+    <table class="comp-table">
+        <thead>
+            <tr>
+                <th class="comp-header"></th>
+                {% for name in samples %}
+                <th class="comp-header">{{ name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in matrix %}
+            {% set row_name = samples[loop.index0] %}
+            <tr>
+                <th class="comp-header">{{ row_name }}</th>
+                {% for value in row %}
+                {% set col_name = samples[loop.index0] %}
+                <td class="cell {{ cell_class }}" style="--value: {{ value }}">
+                    <a href="{{ url_for('main.detail_analysis', selected=[row_name, col_name]) }}">
+                        {{ value }}
+                    </a>
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endmacro %}
