@@ -8,22 +8,36 @@
         <thead>
             <tr>
                 <th class="comp-header"></th>
-                <th class="comp-header"> Pearsonova Korelácia </th>
-                <th class="comp-header"> Euklidovská Vzdialenosť </th>
-                <th class="comp-header"> Kosínová Podobnosť </th>
-                <th class="comp-header"> SAM </th>
+                {% for zone in zone_metrics %}
+                <th class="comp-header">{{ zone.name }}</th>
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for zone in zone_metrics %}
             <tr>
-                <th class="comp-header">{{ zone.name }}</th>
+                <th class="comp-header">Pearsonova Korelácia</th>
+                {% for zone in zone_metrics %}
                 <td class="cell">{{ zone.pearson | round(4) }}</td>
-                <td class="cell">{{ zone.euclidean | round(4) }}</td>
-                <td class="cell">{{ zone.cosine | round(4) }}</td>
-                <td class="cell">{{ zone.sam | round(4) }}</td>
+                {% endfor %}
             </tr>
-            {% endfor %}
+            <tr>
+                <th class="comp-header">Euklidovská Vzdialenosť</th>
+                {% for zone in zone_metrics %}
+                <td class="cell">{{ zone.euclidean | round(4) }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th class="comp-header">Kosínová Podobnosť</th>
+                {% for zone in zone_metrics %}
+                <td class="cell">{{ zone.cosine | round(4) }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th class="comp-header">SAM</th>
+                {% for zone in zone_metrics %}
+                <td class="cell">{{ zone.sam | round(4) }}</td>
+                {% endfor %}
+            </tr>
         </tbody>
     </table>
 </div>
