@@ -12,21 +12,30 @@ ZONES = [
     {"name": "Z8", "x0": 500, "x1": 550},
 ]
 
-def parse_csv(file):
-    #TODO: Propper CSV parsing
-    stream = io.StringIO(file.stream.read().decode("UTF8"), newline = None)
-    reader = csv.DictReader(stream)
+def parse_file(file):
+    stream = io.StringIO(file.stream.read().decode("UTF8"), newline=None)
 
     x_values = []
     y_values = []
-    
-    for row in reader:
-        try:
-            x_values.append(float(row["wavelength_nm"]))
-            y_values.append(float(row["intensity_au"]))
-        except:
+    in_data_section = False
+
+    for line in stream:
+        line = line.strip()
+        
+        if line == "#DATA":
+            in_data_section = True
             continue
-    
+        
+        if not in_data_section:
+            continue
+
+        try:
+            parts = line.split("\t")
+            x_values.append(float(parts[0]))
+            y_values.append(float(parts[1]))
+        except (ValueError, IndexError):
+            continue
+
     return {
         "x": x_values,
         "y": y_values
