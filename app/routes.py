@@ -28,13 +28,15 @@ def multi_analysis():
 
     raw     = {name: data.spectra[name].raw     for name in selected_names}
     z_score = {name: data.spectra[name].z_score for name in selected_names}
+    l1      = {name: data.spectra[name].l1      for name in selected_names}
+    min_max = {name: data.spectra[name].min_max for name in selected_names}
 
     pearson = calculate_matrix(data.spectra, selected_names, pearson_coeff)
     sam     = calculate_matrix(data.spectra, selected_names, spectral_angle_mapper)
 
     return render_template("analysis.html",
                            samples=selected_names,
-                           raw=raw, z_score=z_score,
+                           raw=raw, z_score=z_score, l1=l1, min_max=min_max,
                            pearson=pearson, sam=sam)
 
 @main.route("/detail_analysis", methods=["GET", "POST"])

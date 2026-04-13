@@ -8,6 +8,8 @@
     <div class="switch-btns">
         <button onclick="switchGraph('raw')"> Pôvodné </button>
         <button onclick="switchGraph('zscore')"> Z Score </button>
+        <button onclick="switchGraph('l1')"> L1 </button>
+        <button onclick="switchGraph('min-max')"> Min Max </button>
     </div>
 
     <div id="plot-raw" class="graph-container">
@@ -16,6 +18,14 @@
 
     <div id="plot-zscore" class="graph-container hidden">
         <div class="spectra-graph" id="graph-zscore"></div>
+    </div>
+
+    <div id="plot-l1" class="graph-container hidden">
+        <div class="spectra-graph" id="graph-l1"></div>
+    </div>
+
+    <div id="plot-min-max" class="graph-container hidden">
+        <div class="spectra-graph" id="graph-min-max"></div>
     </div>
 </div>
 
@@ -37,6 +47,8 @@
 <script>
     const rawData = JSON.parse('{{ raw | tojson | safe }}');
     const zScoreData = JSON.parse('{{ z_score | tojson | safe }}');
+    const l1Data = JSON.parse('{{ l1 | tojson | safe }}')
+    const minMaxData = JSON.parse('{{ min_max | tojson | safe }}')
 </script>
 
 <script src="{{ url_for('static', filename='js/graph.js') }}"></script>
