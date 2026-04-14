@@ -12,7 +12,7 @@ ZONES = [
     {"name": "Z8", "x0": 500, "x1": 550},
 ]
 
-def parse_file(file):
+def parse_sp(file):
     stream = io.StringIO(file.stream.read().decode("UTF8"), newline=None)
 
     x_values = []
@@ -40,6 +40,30 @@ def parse_file(file):
         "x": x_values,
         "y": y_values
     }
+
+def parse_csv(file):
+    stream = io.StringIO(file.stream.read().decode("UTF8"), newline=None)
+    reader = csv.reader(stream, delimiter=";")
+    next(reader, None) #Skips "header" row
+
+    x_values = []
+    y_values = []
+
+    for row in reader:
+        try:
+            x = float(row[14].replace(",", "."))
+            y = float(row[15].replace(",", "."))
+        except(ValueError, IndexError):
+            continue
+
+        x_values.append(x)
+        y_values.append(y)
+
+    return {
+        "x": x_values,
+        "y": y_values
+    }
+
 
 def min_max_normalize(data): # Min-max normalizácia na interval <0, 1>
     y_values = data["y"]

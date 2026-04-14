@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from .utils import parse_file, min_max_normalize, z_score_normalize, l1_normalize, align, create_residual, zones_coeffs
+from .utils import parse_sp, parse_csv, min_max_normalize, z_score_normalize, l1_normalize, align, create_residual, zones_coeffs
 from .utils import calculate_matrix, pearson_coeff, cosine_similarity, euclidean_distance, spectral_angle_mapper
 from .store import data
 
@@ -62,11 +62,16 @@ def detail_analysis():
 @main.route("/upload_file", methods=["POST"])
 def upload_file():
     for file in request.files.getlist("files"):
-        if not file or not file.filename.lower().endswith(".sp"):
+        if not file or not file.filename.lower().endswith(".sp") and not file.filename.lower().endswith(".csv"):
             continue
-
-        name = file.filename.removesuffix(".sp")
-        raw_data = parse_file(file)
+        
+        if file.filename.lower().endswith(".sp"):
+            name = file.filename.removesuffix(".sp")
+            raw_data = parse_sp(file)
+        elif file.filename.lower().endswith(".csv"):
+            name = file.filename.removesuffix(".csv")
+            raw_data = parse_csv(file)
+        
         data.add(name, raw_data, min_max_normalize(raw_data), z_score_normalize(raw_data), l1_normalize(raw_data))
 
     return redirect(url_for("main.home"))
