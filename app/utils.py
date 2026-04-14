@@ -64,7 +64,6 @@ def parse_csv(file):
         "y": y_values
     }
 
-
 def min_max_normalize(data): # Min-max normalizácia na interval <0, 1>
     y_values = data["y"]
 
