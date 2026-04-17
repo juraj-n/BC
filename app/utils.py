@@ -140,10 +140,15 @@ def area_difference(x1, y1, x2, y2):
     area1 = np.trapezoid(y1, x_aligned)
     area2 = np.trapezoid(y2, x_aligned)
 
-    area_mean = (area1 + area2) / 2 # Plocha počítaná relatívne voči priemerne zabranej ploche
-
-    #return abs(float((area1 - area2) / area_mean * 100))
     return abs(float(area1 - area2))
+
+def mean_absolute_error(x1, y1, x2, y2):
+    _, y1, y2 = align(x1, y1, x2, y2)
+    return float(np.mean(np.abs(y1 - y2)))
+
+def root_mean_square_deviation(x1, y1, x2, y2):
+    _, y1, y2 = align(x1, y1, x2, y2)
+    return float(np.sqrt(np.mean((y1 - y2) ** 2)))
 
 def pearson_coeff(x1, y1, x2, y2):
     _, y1, y2 = align(x1, y1, x2, y2)
@@ -227,6 +232,8 @@ def zones_coeffs(z_score, l1, min_max, name_a, name_b):
         c = cosine_similarity(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
         s = spectral_angle_mapper(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
         a = area_difference(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
+        m = mean_absolute_error(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
+        rmse = root_mean_square_deviation(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
 
         results.append({
             "name": zone_name,
@@ -234,7 +241,9 @@ def zones_coeffs(z_score, l1, min_max, name_a, name_b):
             "euclidean": e,
             "cosine": c,
             "sam": s,
-            "area_dif": a
+            "area_dif": a,
+            "mae": m,
+            "rmse": rmse
             })
 
     return results

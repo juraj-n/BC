@@ -25,6 +25,26 @@
                 {% endfor %}
             </tr>
             <tr>
+                <th class="comp-header">
+                    MAE
+                </th>
+                {% for zone in zone_metrics %}
+                <td class="cell" style="--value: {{zone.mae}}">
+                    {{ zone.mae | round(4) }}
+                </td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th class="comp-header">
+                    RMSE
+                </th>
+                {% for zone in zone_metrics %}
+                <td class="cell" style="--value: {{zone.rmse}}">
+                    {{ zone.rmse | round(4) }}
+                </td>
+                {% endfor %}
+            </tr>
+            <tr>
                 <th class="comp-header">Pearsonova Korelácia</th>
                 {% for zone in zone_metrics %}
                 <td class="cell" style="--value: {{ zone.pearson }}">

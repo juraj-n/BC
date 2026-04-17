@@ -284,7 +284,7 @@ body {
 }
 
 .auc-cell {
-    --ratio: calc(var(--value) / 0.08);
+    --ratio: calc(var(--value) / 0.05);
     background: color-mix(in oklch, #e74c3c calc(var(--ratio) * 100%), #2ecc71);
 }
 
@@ -295,6 +295,9 @@ body {
     --clamped-val: clamp(0, var(--adjusted-val), 1);
 
     background-color: hsl(calc(var(--clamped-val) * 120), 100%, 85%);
+
+    /* --ratio: calc((1 - var(--value)) / 2);
+    background: color-mix(in oklch, #e74c3c calc(var(--ratio) * 100%), #2ecc71); */
 }
 
 .cosine-cell {
@@ -308,9 +311,8 @@ body {
 }
 
 .sam-cell {
-    --max-angle: 1.6;
-    background-color: hsl(calc((1 - clamp(0, var(--value), var(--max-angle)) / var(--max-angle)) * 120),
-            32%, 70%);
+    --ratio: calc(var(--value) / 1.5708);
+    background: color-mix(in oklch, #e74c3c calc(var(--ratio) * 100%), #2ecc71);
 }
 
 .switch-btns {

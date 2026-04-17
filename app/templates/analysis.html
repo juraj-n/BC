@@ -35,7 +35,7 @@
         <button onclick="switchTable('sam')"> SAM </button>
     </div>
     {{ multi_sample_table(samples, pearson, 'pearson', 'pearson-cell') }}
-    {{ multi_sample_table(samples, sam, 'sam', hidden=true) }}
+    {{ multi_sample_table(samples, sam, 'sam', 'sam-cell', hidden=true) }}
 </div>
 {% endif %}
 
