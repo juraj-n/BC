@@ -134,8 +134,19 @@ def calculate_matrix(spectra, selected, metric_fn, normalization="z_score"):
 
     return matrix
 
+def area_difference(x1, y1, x2, y2):
+    x_aligned, y1, y2 = align(x1, y1, x2, y2)
+
+    area1 = np.trapezoid(y1, x_aligned)
+    area2 = np.trapezoid(y2, x_aligned)
+
+    area_mean = (area1 + area2) / 2 # Plocha počítaná relatívne voči priemerne zabranej ploche
+
+    #return abs(float((area1 - area2) / area_mean * 100))
+    return abs(float(area1 - area2))
+
 def pearson_coeff(x1, y1, x2, y2):
-    _, y1, y2 =align(x1, y1, x2, y2)
+    _, y1, y2 = align(x1, y1, x2, y2)
     
     r = np.corrcoef(y1, y2)[0, 1]
     
@@ -203,37 +214,27 @@ def split_by_zones(data):
     return result
 
 def zones_coeffs(z_score, l1, min_max, name_a, name_b):
-    z_score_zones_a = split_by_zones(z_score[name_a])
-    z_score_zones_b = split_by_zones(z_score[name_b])
-
     l1_zones_a = split_by_zones(l1[name_a])
     l1_zones_b = split_by_zones(l1[name_b])
 
-    m_zones_a = split_by_zones(min_max[name_a])
-    m_zones_b = split_by_zones(min_max[name_b])
-
     results = []
-    for zone_name in z_score_zones_a:
-        z_a = z_score_zones_a[zone_name]
-        z_b = z_score_zones_b[zone_name]
-
+    for zone_name in l1_zones_a:    
         l_a = l1_zones_a[zone_name]
         l_b = l1_zones_b[zone_name]
 
-        m_a = m_zones_a[zone_name]
-        m_b = m_zones_b[zone_name]
-
-        r = pearson_coeff(z_a["x"], z_a["y"], z_b["x"], z_b["y"])
+        r = pearson_coeff(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
         e = euclidean_distance(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
-        c = cosine_similarity(z_a["x"], z_a["y"], z_b["x"], z_b["y"])
-        s = spectral_angle_mapper(m_a["x"], m_a["y"], m_b["x"], m_b["y"])
+        c = cosine_similarity(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
+        s = spectral_angle_mapper(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
+        a = area_difference(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
 
         results.append({
             "name": zone_name,
             "pearson": r,
             "euclidean": e,
             "cosine": c,
-            "sam": s
+            "sam": s,
+            "area_dif": a
             })
 
     return results

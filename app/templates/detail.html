@@ -15,21 +15,27 @@
         </thead>
         <tbody>
             <tr>
+                <th class="comp-header" title="Area Under Curve = Plocha pod krivkou">
+                    Δ AUC
+                </th>
+                {% for zone in zone_metrics %}
+                <td class="cell auc-cell" style="--value: {{zone.area_dif}}">
+                    {{ zone.area_dif | round(4) }}
+                </td>
+                {% endfor %}
+            </tr>
+            <tr>
                 <th class="comp-header">Pearsonova Korelácia</th>
                 {% for zone in zone_metrics %}
-                <td class="cell">{{ zone.pearson | round(4) }}</td>
+                <td class="cell" style="--value: {{ zone.pearson }}">
+                    {{ zone.pearson | round(4) }}
+                </td>
                 {% endfor %}
             </tr>
             <tr>
-                <th class="comp-header">Euklidovská Vzdialenosť</th>
+                <th class=" comp-header">Euklidovská Vzdialenosť</th>
                 {% for zone in zone_metrics %}
                 <td class="cell">{{ zone.euclidean | round(4) }}</td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <th class="comp-header">Kosínová Podobnosť</th>
-                {% for zone in zone_metrics %}
-                <td class="cell">{{ zone.cosine | round(4) }}</td>
                 {% endfor %}
             </tr>
             <tr>

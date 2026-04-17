@@ -264,6 +264,8 @@ body {
 }
 
 .cell {
+    border-bottom: solid 1px var(--bg-light);
+    border-right: solid 1px var(--bg-light);
     text-align: center;
     vertical-align: middle;
     font-weight: bold;
@@ -281,8 +283,18 @@ body {
     text-decoration: none;
 }
 
+.auc-cell {
+    --ratio: calc(var(--value) / 0.08);
+    background: color-mix(in oklch, #e74c3c calc(var(--ratio) * 100%), #2ecc71);
+}
+
 .pearson-cell {
-    background-color: hsl(calc((clamp(-1, var(--value), 1) + 1) / 2 * 120), 32%, 70%);
+    /* background-color: hsl(calc((clamp(0, var(--value), 1)) * 120), 32%, 70%); */
+    --threshold: 0.3;
+    --adjusted-val: calc((var(--value) - var(--threshold)) / (1 - var(--threshold)));
+    --clamped-val: clamp(0, var(--adjusted-val), 1);
+
+    background-color: hsl(calc(var(--clamped-val) * 120), 100%, 85%);
 }
 
 .cosine-cell {
