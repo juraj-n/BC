@@ -112,22 +112,41 @@ def z_score_normalize(data): # Normalizácia podľa smerodajnej odchýlky
     }
 
 def l1_normalize(data):
-    y_values = data["y"]
+    x_values = np.asarray(data["x"], dtype=float)
+    y_values = np.asarray(data["y"], dtype=float)
 
     if len(y_values) < 2:
         return data
-    
-    total_area = sum(abs(y) for y in y_values)
+
+    total_area = np.trapezoid(np.abs(y_values), x_values)  # ← konzistentné s AUC
 
     if total_area == 0:
-        norm_y = [0 for value in y_values]
+        norm_y = np.zeros_like(y_values)
     else:
-        norm_y = [y / total_area for y in y_values]
+        norm_y = y_values / total_area
+
+    print(np.trapezoid(norm_y, x_values))
 
     return {
         "x": data["x"],
-        "y": norm_y
+        "y": norm_y.tolist()
     }
+    # y_values = data["y"]
+
+    # if len(y_values) < 2:
+    #     return data
+    
+    # total_area = sum(abs(y) for y in y_values)
+
+    # if total_area == 0:
+    #     norm_y = [0 for value in y_values]
+    # else:
+    #     norm_y = [y / total_area for y in y_values]
+
+    # return {
+    #     "x": data["x"],
+    #     "y": norm_y
+    # }
 
 def calculate_matrix(spectra, selected, metric_fn, normalization="z_score"):
     matrix = []
@@ -143,13 +162,21 @@ def calculate_matrix(spectra, selected, metric_fn, normalization="z_score"):
 
     return matrix
 
+def peak_difference(x1, y1, x2, y2):
+    _, y1, y2 = align(x1, y1, x2, y2)
+
+    max1 = np.max(y1)
+    max2 = np.max(y2)
+
+    return  (max1 - max2) / (max1 + max2)* 100
+
 def area_difference(x1, y1, x2, y2):
     x_aligned, y1, y2 = align(x1, y1, x2, y2)
 
     area1 = np.trapezoid(y1, x_aligned)
     area2 = np.trapezoid(y2, x_aligned)
 
-    return abs(float(area1 - area2))
+    return abs(float(area1 - area2) * 100)
 
 def mean_absolute_error(x1, y1, x2, y2):
     _, y1, y2 = align(x1, y1, x2, y2)
@@ -243,6 +270,7 @@ def zones_coeffs(z_score, l1, min_max, name_a, name_b):
         a = area_difference(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
         m = mean_absolute_error(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
         rmse = root_mean_square_deviation(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
+        psd = peak_difference(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
 
         results.append({
             "name": zone_name,
@@ -252,7 +280,8 @@ def zones_coeffs(z_score, l1, min_max, name_a, name_b):
             "sam": s,
             "area_dif": a,
             "mae": m,
-            "rmse": rmse
+            "rmse": rmse,
+            "psd": psd
             })
 
     return results

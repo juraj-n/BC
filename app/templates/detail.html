@@ -20,7 +20,17 @@
                 </th>
                 {% for zone in zone_metrics %}
                 <td class="cell auc-cell" style="--value: {{zone.area_dif}}">
-                    {{ zone.area_dif | round(4) }}
+                    {{ zone.area_dif | round(2) }}%
+                </td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th class="comp-header">
+                    PSD
+                </th>
+                {% for zone in zone_metrics %}
+                <td class="cell" style="--value: {{zone.psd}}">
+                    {{ zone.psd | round(4) }}
                 </td>
                 {% endfor %}
             </tr>

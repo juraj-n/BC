@@ -284,7 +284,7 @@ body {
 }
 
 .auc-cell {
-    --ratio: calc(var(--value) / 0.05);
+    --ratio: clamp(0, calc(var(--value) / 20), 1);
     background: color-mix(in oklch, #e74c3c calc(var(--ratio) * 100%), #2ecc71);
 }
 
