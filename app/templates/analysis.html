@@ -32,7 +32,7 @@
 <div class="cont-section">
     <div class="switch-btns">
         <button onclick="switchTable('pearson')"> Pearsonova korelácia </button>
-        <button onclick="switchTable('sam')"> SAM </button>
+        <button onclick="switchTable('sam')" title="Spektrálny uhol"> SAM </button>
     </div>
     {{ multi_sample_table(samples, pearson, 'pearson', 'pearson-cell') }}
     {{ multi_sample_table(samples, sam, 'sam', 'sam-cell', hidden=true) }}
