@@ -51,13 +51,22 @@ def parse_csv(file):
 
     for row in reader:
         try:
-            x = float(row[14].replace(",", "."))
-            y = float(row[15].replace(",", "."))
+            x_raw = row[14].replace(",", ".").strip()
+            y_raw = row[15].replace(",", ".").strip()
+
+            if not x_raw or not y_raw:
+                continue
+
+            x = float(x_raw)
+            y = float(y_raw)
         except(ValueError, IndexError):
             continue
 
         x_values.append(x)
         y_values.append(y)
+
+    if not x_values or not y_values:
+        return None
 
     return {
         "x": x_values,

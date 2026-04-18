@@ -72,7 +72,13 @@ def upload_file():
             name = file.filename.removesuffix(".csv")
             raw_data = parse_csv(file)
         
-        data.add(name, raw_data, min_max_normalize(raw_data), z_score_normalize(raw_data), l1_normalize(raw_data))
+        if raw_data is not None: 
+            data.add(name,
+                     raw_data,
+                     min_max_normalize(raw_data),
+                     z_score_normalize(raw_data),
+                     l1_normalize(raw_data)
+                     )
 
     return redirect(url_for("main.home"))
 
