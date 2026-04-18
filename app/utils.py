@@ -131,22 +131,6 @@ def l1_normalize(data):
         "x": data["x"],
         "y": norm_y.tolist()
     }
-    # y_values = data["y"]
-
-    # if len(y_values) < 2:
-    #     return data
-    
-    # total_area = sum(abs(y) for y in y_values)
-
-    # if total_area == 0:
-    #     norm_y = [0 for value in y_values]
-    # else:
-    #     norm_y = [y / total_area for y in y_values]
-
-    # return {
-    #     "x": data["x"],
-    #     "y": norm_y
-    # }
 
 def calculate_matrix(spectra, selected, metric_fn, normalization="z_score"):
     n = len(selected)
@@ -166,14 +150,6 @@ def calculate_matrix(spectra, selected, metric_fn, normalization="z_score"):
 
     return matrix
 
-def peak_difference(x1, y1, x2, y2):
-    _, y1, y2 = align(x1, y1, x2, y2)
-
-    max1 = np.max(y1)
-    max2 = np.max(y2)
-
-    return  (max1 - max2) / (max1 + max2)* 100
-
 def area_difference(x1, y1, x2, y2):
     x_aligned, y1, y2 = align(x1, y1, x2, y2)
 
@@ -181,14 +157,6 @@ def area_difference(x1, y1, x2, y2):
     area2 = np.trapezoid(y2, x_aligned)
 
     return abs(float(area1 - area2) * 100)
-
-def mean_absolute_error(x1, y1, x2, y2):
-    _, y1, y2 = align(x1, y1, x2, y2)
-    return float(np.mean(np.abs(y1 - y2)))
-
-def root_mean_square_deviation(x1, y1, x2, y2):
-    _, y1, y2 = align(x1, y1, x2, y2)
-    return float(np.sqrt(np.mean((y1 - y2) ** 2)))
 
 def pearson_coeff(x1, y1, x2, y2):
     _, y1, y2 = align(x1, y1, x2, y2)
@@ -267,25 +235,13 @@ def zones_coeffs(z_score, l1, min_max, name_a, name_b):
         l_a = l1_zones_a[zone_name]
         l_b = l1_zones_b[zone_name]
 
-        r = pearson_coeff(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
-        e = euclidean_distance(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
-        c = cosine_similarity(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
         s = spectral_angle_mapper(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
-        a = area_difference(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
-        m = mean_absolute_error(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
-        rmse = root_mean_square_deviation(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
-        psd = peak_difference(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
+        area_dif = area_difference(l_a["x"], l_a["y"], l_b["x"], l_b["y"])
 
         results.append({
             "name": zone_name,
-            "pearson": r,
-            "euclidean": e,
-            "cosine": c,
             "sam": s,
-            "area_dif": a,
-            "mae": m,
-            "rmse": rmse,
-            "psd": psd
+            "area_dif": area_dif
             })
 
     return results

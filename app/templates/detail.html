@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="cont-section">
-    <h2> Štatistická podobnosť podľa zón </h2>
+    <h2> Porovnanie spektier ({{ samples[0] }} & {{ samples[1] }}) podľa zón </h2>
     <table class="comp-table">
         <thead>
             <tr>
@@ -25,50 +25,6 @@
                 {% endfor %}
             </tr>
             <tr>
-                <th class="comp-header">
-                    PSD
-                </th>
-                {% for zone in zone_metrics %}
-                <td class="cell" style="--value: {{zone.psd}}">
-                    {{ zone.psd | round(4) }}
-                </td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <th class="comp-header">
-                    MAE
-                </th>
-                {% for zone in zone_metrics %}
-                <td class="cell" style="--value: {{zone.mae}}">
-                    {{ zone.mae | round(4) }}
-                </td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <th class="comp-header">
-                    RMSE
-                </th>
-                {% for zone in zone_metrics %}
-                <td class="cell" style="--value: {{zone.rmse}}">
-                    {{ zone.rmse | round(4) }}
-                </td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <th class="comp-header">Pearsonova Korelácia</th>
-                {% for zone in zone_metrics %}
-                <td class="cell" style="--value: {{ zone.pearson }}">
-                    {{ zone.pearson | round(4) }}
-                </td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <th class=" comp-header">Euklidovská Vzdialenosť</th>
-                {% for zone in zone_metrics %}
-                <td class="cell">{{ zone.euclidean | round(4) }}</td>
-                {% endfor %}
-            </tr>
-            <tr>
                 <th class="comp-header">SAM</th>
                 {% for zone in zone_metrics %}
                 <td class="cell">{{ zone.sam | round(4) }}</td>
@@ -79,14 +35,14 @@
 </div>
 
 <div class="cont-section">
-    <h2> Rozdiel spektier </h2>
+    <h2> Rozdiel spektier ({{ samples[0] }} & {{ samples[1] }}) </h2>
     <div id="plot-residual">
         <div class="spectra-graph" id="graph-residual"></div>
     </div>
 </div>
 
 <div class="cont-section">
-    <h2> Porovnanie spektrálnych priebehov </h2>
+    <h2> Porovnanie priebehov spektier ({{ samples[0] }} & {{ samples[1] }}) </h2>
     <div class="switch-btns">
         <button onclick="switchGraph('raw')"> Pôvodné </button>
         <button onclick="switchGraph('zscore')"> Z Score </button>

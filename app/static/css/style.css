@@ -204,7 +204,7 @@ body {
 
 .cont-section h2 {
     display: inline-block;
-    color: var(--primary-purple);
+    color: var(--accent-purple);
     border-bottom: var(--accent-purple) 3px solid;
     font-size: 1.5rem;
     font-weight: bold;
