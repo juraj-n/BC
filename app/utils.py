@@ -149,16 +149,20 @@ def l1_normalize(data):
     # }
 
 def calculate_matrix(spectra, selected, metric_fn, normalization="z_score"):
-    matrix = []
-    for a in selected:
-        row = []
-        for b in selected:
+    n = len(selected)
+    matrix = [[None] * n for _ in range(n)]
+    
+    for i in range(n):
+        for j in range(i, n):
+            a, b = selected[i], selected[j]
             x_a = getattr(spectra[a], normalization)["x"]
             y_a = getattr(spectra[a], normalization)["y"]
             x_b = getattr(spectra[b], normalization)["x"]
             y_b = getattr(spectra[b], normalization)["y"]
-            row.append(round(metric_fn(x_a, y_a, x_b, y_b), 3))
-        matrix.append(row)
+            
+            value = round(metric_fn(x_a, y_a, x_b, y_b), 3)
+            matrix[i][j] = value
+            matrix[j][i] = value
 
     return matrix
 
