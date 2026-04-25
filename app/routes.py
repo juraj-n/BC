@@ -3,6 +3,9 @@ from .utils import parse_sp, parse_csv, min_max_normalize, z_score_normalize, l1
 from .utils import calculate_matrix, pearson_coeff, cosine_similarity, euclidean_distance, spectral_angle_mapper
 from .store import data
 
+# Time analysis
+import time
+
 main = Blueprint("main", __name__)
 
 @main.context_processor
@@ -26,6 +29,8 @@ def run_analysis():
 def multi_analysis():
     selected_names = request.args.getlist("selected")
 
+    start = time.time()
+
     raw     = {name: data.spectra[name].raw     for name in selected_names}
     z_score = {name: data.spectra[name].z_score for name in selected_names}
     l1      = {name: data.spectra[name].l1      for name in selected_names}
@@ -33,6 +38,10 @@ def multi_analysis():
 
     pearson = calculate_matrix(data.spectra, selected_names, pearson_coeff)
     sam     = calculate_matrix(data.spectra, selected_names, spectral_angle_mapper)
+
+    end = time.time()
+    elapsed = round((end - start) * 1000, 0)
+    print(f"Čas trvania výpočtu: {elapsed}ms")
 
     return render_template("analysis.html",
                            samples=selected_names,
