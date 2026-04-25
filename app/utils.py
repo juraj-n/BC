@@ -73,7 +73,7 @@ def parse_csv(file):
         "y": y_values
     }
 
-def min_max_normalize(data): # Min-max normalizácia na interval <0, 1>
+def min_max_normalize(data):
     y_values = data["y"]
 
     if not y_values:
@@ -92,7 +92,7 @@ def min_max_normalize(data): # Min-max normalizácia na interval <0, 1>
         "y": norm_y
     }
 
-def z_score_normalize(data): # Normalizácia podľa smerodajnej odchýlky
+def z_score_normalize(data):
     y_values = data["y"]
 
     if len(y_values) < 2:
@@ -118,14 +118,12 @@ def l1_normalize(data):
     if len(y_values) < 2:
         return data
 
-    total_area = np.trapezoid(np.abs(y_values), x_values)  # ← konzistentné s AUC
+    total_area = np.trapezoid(np.abs(y_values), x_values)
 
     if total_area == 0:
         norm_y = np.zeros_like(y_values)
     else:
         norm_y = y_values / total_area
-
-    print(np.trapezoid(norm_y, x_values))
 
     return {
         "x": data["x"],

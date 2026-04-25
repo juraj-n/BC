@@ -3,9 +3,9 @@
     <table class="comp-table">
         <thead>
             <tr>
-                <th class="comp-header"></th>
+                <th class="table-header"></th>
                 {% for name in samples %}
-                <th class="comp-header">{{ name }}</th>
+                <th class="table-header">{{ name }}</th>
                 {% endfor %}
             </tr>
         </thead>
@@ -13,10 +13,10 @@
             {% for row in matrix %}
             {% set row_name = samples[loop.index0] %}
             <tr>
-                <th class="comp-header">{{ row_name }}</th>
+                <th class="table-header">{{ row_name }}</th>
                 {% for value in row %}
                 {% set col_name = samples[loop.index0] %}
-                <td class="cell {{ cell_class }}" style="--value: {{ value }}">
+                <td class="cell multi-cell {{ cell_class }}" style="--value: {{ value }}">
                     <a href="{{ url_for('main.detail_analysis', selected=[row_name, col_name]) }}">
                         {{ value }}
                     </a>
