@@ -83,7 +83,7 @@ def min_max_normalize(data):
     y_max = max(y_values)
 
     if y_min == y_max:
-        norm_y = [0 for value in y_values]
+        norm_y = [0 for _ in y_values]
     else:
         norm_y = [(y - y_min) / (y_max - y_min) for y in y_values]
 
@@ -102,7 +102,7 @@ def z_score_normalize(data):
     stdev = statistics.stdev(y_values)
 
     if stdev == 0:
-        norm_y = [0 for value in y_values]
+        norm_y = [0 for _ in y_values]
     else:
         norm_y = [(y - mean) / stdev for y in y_values]
     
