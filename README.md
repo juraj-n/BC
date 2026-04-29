@@ -11,6 +11,7 @@
 2. **Virtual environment**
 ```bash
     python -m venv venv
+    (or try python -m venv venv --without-pip)
 
     # Windows
     venv\Scripts\activate
