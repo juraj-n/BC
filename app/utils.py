@@ -134,11 +134,6 @@ def pearson_coeff(x1, y1, x2, y2):
     
     return 0.0 if np.isnan(r) else float(r)
 
-def euclidean_distance(x1, y1, x2, y2):
-    _, y1, y2 = align(x1, y1, x2, y2)
-
-    return float(np.linalg.norm(y1 - y2))
-
 def cosine_similarity(x1, y1, x2, y2):
     _, y1, y2 = align(x1, y1, x2, y2)
 

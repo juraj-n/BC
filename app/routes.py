@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from .utils import parse_csv, min_max_normalize, z_score_normalize, l1_normalize, align, create_residual, zones_coeffs
-from .utils import calculate_matrix, pearson_coeff, cosine_similarity, euclidean_distance, spectral_angle_mapper
+from .utils import calculate_matrix, pearson_coeff, spectral_angle_mapper
 from .store import data
 
 # Time analysis
