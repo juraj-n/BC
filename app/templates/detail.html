@@ -2,24 +2,24 @@
 
 {% block content %}
 
-<div class="cont-section">
+<div class="main-section">
     <h2> Porovnanie spektier ({{ samples[0] }} & {{ samples[1] }}) podľa zón </h2>
-    <table class="detail-table">
+    <table class="metrics-table detail-table">
         <thead>
             <tr>
-                <th class="table-header"></th>
+                <th class="cell table-header"></th>
                 {% for zone in zone_metrics %}
-                <th class="table-header">{{ zone.name }}</th>
+                <th class="cell table-header">{{ zone.name }}</th>
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th class="table-header" title="ΔAUC = Rozdiel plochy pod krivkou">
+                <th class="cell table-header" title="ΔAUC = Rozdiel plochy pod krivkou">
                     Δ AUC
                 </th>
                 {% for zone in zone_metrics %}
-                <td class="cell auc-cell" style="--value: {{zone.area_dif}}">
+                <td class="cell detail-cell auc-cell" style="--value: {{zone.area_dif}}">
                     {{ zone.area_dif | round(2) }}%
                 </td>
                 {% endfor %}
@@ -28,20 +28,20 @@
     </table>
 </div>
 
-<div class="cont-section">
+<div class="main-section">
     <h2> Rozdiel spektier ({{ samples[0] }} & {{ samples[1] }}) </h2>
     <div id="plot-residual">
         <div class="spectra-graph" id="graph-residual"></div>
     </div>
 </div>
 
-<div class="cont-section">
+<div class="main-section">
     <h2> Porovnanie priebehov spektier ({{ samples[0] }} & {{ samples[1] }}) </h2>
     <div class="switch-btns">
-        <button onclick="switchGraph('raw')"> Pôvodné </button>
-        <button onclick="switchGraph('l1')"> L1 </button>
-        <button onclick="switchGraph('zscore')"> Z Score </button>
-        <button onclick="switchGraph('minmax')"> Min Max </button>
+        <button class="btn" onclick="switchGraph('raw')"> Pôvodné </button>
+        <button class="btn" onclick="switchGraph('l1')"> L1 </button>
+        <button class="btn" onclick="switchGraph('zscore')"> Z Score </button>
+        <button class="btn" onclick="switchGraph('minmax')"> Min Max </button>
     </div>
 
     <div id="plot-raw" class="graph-container">

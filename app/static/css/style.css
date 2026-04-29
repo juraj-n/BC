@@ -1,9 +1,11 @@
+/*  ============================== 
+    Shared
+    ============================== */
 :root {
     --primary-purple: #4b0082;
-    --light-purple: #f3e5f5;
     --accent-purple: #7e57c2;
-    --text-dark: #333;
-    --bg-light: #f8f9fa;
+    --light-purple: #f3e5f5;
+    --whiteish: #f8f9fa;
     --lime-green: #4caf50;
 }
 
@@ -23,7 +25,28 @@ body {
     min-height: 100vh;
 }
 
-/* Sidebar */
+.btn {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+}
+
+.btn:hover,
+.btn:active {
+    opacity: 0.8;
+}
+
+.btn-group {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 10px;
+}
+
+/*  ============================== 
+    Sidebar
+    ============================== */
 .sidebar {
     flex: 0 0 18%;
     max-width: 18%;
@@ -43,29 +66,12 @@ body {
     font-size: 1.2rem;
 }
 
-/* Sidebar Components */
 .side-analyse-btn {
     width: 100%;
     height: 45px;
-    color: white;
     background-color: var(--lime-green);
     font-size: 1rem;
     font-weight: bold;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-}
-
-.side-analyse-btn:hover,
-.side-analyse-btn:active {
-    opacity: 0.95;
-}
-
-.side-btn-group {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    gap: 10px;
 }
 
 .side-upload {
@@ -77,16 +83,8 @@ body {
     border: none;
 
     background-color: var(--accent-purple);
-    color: white;
-    border-radius: 5px;
     font-size: 0.9rem;
     font-weight: bold;
-    cursor: pointer;
-}
-
-.side-upload:hover,
-.side-upload:active {
-    opacity: 0.8;
 }
 
 .side-upload-form {
@@ -103,10 +101,6 @@ body {
     cursor: pointer;
 }
 
-.side-upload-btn {
-    flex: 1;
-}
-
 .spectra-check-controls {
     display: flex;
     justify-content: space-between;
@@ -115,15 +109,7 @@ body {
 
 .check-btn {
     background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    opacity: 0.8;
-}
-
-.check-btn:hover,
-.check-btn:active {
-    opacity: 1;
+    opacity: 0.85;
 }
 
 .spectra-list {
@@ -158,10 +144,8 @@ body {
 
 .spectra-del-btn {
     background: transparent;
-    border: none;
     font-weight: bold;
-    cursor: pointer;
-    color: lightgray;
+    color: lightgrey;
 }
 
 .spectra-del-btn:hover,
@@ -174,12 +158,14 @@ body {
     background-color: var(--accent-purple);
 }
 
-/* Main Content */
+/*  ==============================
+    Main Content
+    ============================== */
 .content {
     flex: 0 0 82%;
     min-width: 82%;
     min-height: 100vh;
-    background-color: var(--bg-light);
+    background-color: var(--whiteish);
 }
 
 .main-placeholder {
@@ -196,13 +182,13 @@ body {
     padding-bottom: 10%;
 }
 
-.cont-section {
+.main-section {
     padding: 10px;
     width: 80%;
     margin: 0 auto;
 }
 
-.cont-section h2 {
+.main-section h2 {
     display: inline-block;
     color: var(--accent-purple);
     border-bottom: var(--accent-purple) 3px solid;
@@ -210,7 +196,6 @@ body {
     font-weight: bold;
 }
 
-/* Main Components */
 .table-container {
     overflow-x: auto;
     overflow-y: auto;
@@ -218,57 +203,63 @@ body {
     max-height: 60vh;
 }
 
+.switch-btns {
+    display: flex;
+    justify-content: end;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.switch-btns button {
+    padding: 5px;
+    background-color: var(--primary-purple);
+    font-weight: bold;
+}
+
+.spectra-graph {
+    width: 100%;
+    height: 500px;
+}
+
+/*  ==============================
+    Metrics Table
+    ============================== */
+.metrics-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+/*  ==============================
+    Detail Table
+    ============================== */
 .detail-table {
     table-layout: fixed;
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0 auto;
 }
 
-.comp-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0 auto;
-}
-
-.comp-table thead th {
+/*  ==============================
+    Multi Table
+    ============================== */
+.multi-table thead th {
     position: sticky;
     top: 0;
     z-index: 10;
 }
 
-.comp-table th:first-child,
-.comp-table td:first-child {
+.multi-table th:first-child,
+.multi-table td:first-child {
     position: sticky;
     left: 0;
     z-index: 5;
 }
 
-.comp-table thead tr th:first-child {
+.multi-table thead th:first-child {
     z-index: 15;
-    top: 0;
-    left: 0;
 }
 
-.table-header {
-    background-color: var(--primary-purple);
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    vertical-align: middle;
-    padding: 10px;
-    max-width: 150px;
-}
-
-.comp-second-header {
-    background-color: var(--light-purple);
-    color: black;
-    font-weight: bold;
-    text-align: center;
-    vertical-align: middle;
-    padding: 10px;
-}
-
+/*  ==============================
+    Cells
+    ============================== */
 .cell {
     text-align: center;
     vertical-align: middle;
@@ -277,9 +268,19 @@ body {
     cursor: default;
 }
 
+.table-header {
+    background-color: var(--primary-purple);
+    color: white;
+    max-width: 150px;
+}
+
+.detail-cell {
+    border-right: solid 1px var(--whiteish);
+}
+
 .multi-cell {
-    border-bottom: solid 1px var(--bg-light);
-    border-right: solid 1px var(--bg-light);
+    border-bottom: solid 1px var(--whiteish);
+    border-right: solid 1px var(--whiteish);
     cursor: pointer;
 }
 
@@ -307,31 +308,4 @@ body {
     /* 1.5708 */
     --ratio: calc(var(--value) / 2.5);
     background: color-mix(in oklch, #e74c3c calc(var(--ratio) * 100%), #2ecc71);
-}
-
-.switch-btns {
-    display: flex;
-    justify-content: end;
-    gap: 5px;
-    margin-bottom: 5px;
-}
-
-.switch-btns button {
-    padding: 5px;
-    cursor: pointer;
-    color: white;
-    background-color: var(--primary-purple);
-    font-weight: bold;
-    border-radius: 5px;
-    border: none;
-}
-
-.switch-btns button:hover,
-.switch-btns button:active {
-    opacity: 0.8;
-}
-
-.spectra-graph {
-    width: 100%;
-    height: 500px;
 }

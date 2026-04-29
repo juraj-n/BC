@@ -1,12 +1,12 @@
 <aside class="sidebar">
     <form id="compare-form" action="{{ url_for('main.run_analysis') }}" method="POST">
-        <button type="submit" class="side-analyse-btn"> SPUSTIŤ ANALÝZU </button>
+        <button type="submit" class="btn side-analyse-btn"> SPUSTIŤ ANALÝZU </button>
     </form>
 
     <div class="side-section">
         <h2> VÝBER DÁT </h2>
-        <div class="side-btn-group">
-            <form class="side-upload side-upload-form" action="{{ url_for('main.upload_file') }}" method="POST"
+        <div class="btn-group">
+            <form class="btn side-upload side-upload-form" action="{{ url_for('main.upload_file') }}" method="POST"
                 enctype="multipart/form-data">
                 <label for="file-input-csv"> Nahrať CSV Súbory </label>
                 <input type="file" id="file-input-csv" name="files" multiple hidden accept=".csv"
@@ -19,8 +19,8 @@
         <div class="spectra-check-controls">
             <h2> VZORKY </h2>
             <div>
-                <button type="button" class="check-btn" onclick="setAllCheckboxes(true)"> Všetky </button>
-                <button type="button" class="check-btn" onclick="setAllCheckboxes(false)"> Žiadne </button>
+                <button type="button" class="btn check-btn" onclick="setAllCheckboxes(true)"> Všetky </button>
+                <button type="button" class="btn check-btn" onclick="setAllCheckboxes(false)"> Žiadne </button>
             </div>
         </div>
         <div class="spectra-list">
@@ -38,7 +38,7 @@
                 </div>
 
                 <form action="{{ url_for('main.delete_spectra', spectrum_name=spectrum_name) }}" method="POST">
-                    <button type="submit" class="spectra-del-btn" title="Delete {{ spectrum_name }}"
+                    <button type="submit" class="btn spectra-del-btn" title="Delete {{ spectrum_name }}"
                         aria-label="Vymazať {{ spectrum_name }}">
                         X
                     </button>

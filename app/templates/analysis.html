@@ -4,12 +4,12 @@
 {% block content %}
 
 {% if samples and samples | length >= 2 %}
-<div class="cont-section">
+<div class="main-section">
     <div class="switch-btns">
-        <button onclick="switchGraph('raw')"> Pôvodné </button>
-        <button onclick="switchGraph('l1')"> L1 </button>
-        <button onclick="switchGraph('zscore')"> Z Score </button>
-        <button onclick="switchGraph('min-max')"> Min Max </button>
+        <button class="btn" onclick="switchGraph('raw')"> Pôvodné </button>
+        <button class="btn" onclick="switchGraph('l1')"> L1 </button>
+        <button class="btn" onclick="switchGraph('zscore')"> Z Score </button>
+        <button class="btn" onclick="switchGraph('min-max')"> Min Max </button>
     </div>
 
     <div id="plot-raw" class="graph-container">
@@ -29,10 +29,10 @@
     </div>
 </div>
 
-<div class="cont-section">
+<div class="main-section">
     <div class="switch-btns">
-        <button onclick="switchTable('sam')" title="Spektrálny uhol"> SAM </button>
-        <button onclick="switchTable('pearson')"> Pearsonova korelácia </button>
+        <button class="btn" onclick="switchTable('sam')" title="Spektrálny uhol"> SAM </button>
+        <button class="btn" onclick="switchTable('pearson')"> Pearsonova korelácia </button>
     </div>
     {{ multi_sample_table(samples, pearson, 'pearson', 'pearson-cell', hidden=true) }}
     {{ multi_sample_table(samples, sam, 'sam', 'sam-cell') }}

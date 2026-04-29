@@ -1,11 +1,11 @@
 {% macro multi_sample_table(samples, matrix, metric_key, cell_class, hidden=false) %}
 <div id="table-{{ metric_key }}" class="table-container {% if hidden %} hidden {% endif %}">
-    <table class="comp-table">
+    <table class="metrics-table multi-table">
         <thead>
             <tr>
-                <th class="table-header"></th>
+                <th class="cell table-header"></th>
                 {% for name in samples %}
-                <th class="table-header">{{ name }}</th>
+                <th class="cell table-header">{{ name }}</th>
                 {% endfor %}
             </tr>
         </thead>
@@ -13,7 +13,7 @@
             {% for row in matrix %}
             {% set row_name = samples[loop.index0] %}
             <tr>
-                <th class="table-header">{{ row_name }}</th>
+                <th class="cell table-header">{{ row_name }}</th>
                 {% for value in row %}
                 {% set col_name = samples[loop.index0] %}
                 <td class="cell multi-cell {{ cell_class }}" style="--value: {{ value }}">
