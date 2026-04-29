@@ -3,9 +3,6 @@ from .utils import parse_csv, min_max_normalize, z_score_normalize, l1_normalize
 from .utils import calculate_matrix, pearson_coeff, spectral_angle_mapper
 from .store import data
 
-# Time analysis
-import time
-
 main = Blueprint("main", __name__)
 
 @main.context_processor
@@ -19,17 +16,18 @@ def home():
 @main.route("/run_analysis", methods=["POST"])
 def run_analysis():
     selected_names = request.form.getlist("selected")
-    if (len(selected_names) < 2):
+    
+    if len(selected_names) < 2:
         return redirect(url_for("main.home"))
-    if (len(selected_names) == 2):
+    
+    if len(selected_names) == 2:
         return redirect(url_for("main.detail_analysis", selected=selected_names))
+    
     return redirect(url_for("main.multi_analysis", selected=selected_names))
 
 @main.route("/multi_analysis", methods=["GET"])
 def multi_analysis():
     selected_names = request.args.getlist("selected")
-
-    start = time.time()
 
     raw     = {name: data.spectra[name].raw     for name in selected_names}
     z_score = {name: data.spectra[name].z_score for name in selected_names}
@@ -39,16 +37,12 @@ def multi_analysis():
     pearson = calculate_matrix(data.spectra, selected_names, pearson_coeff)
     sam     = calculate_matrix(data.spectra, selected_names, spectral_angle_mapper)
 
-    end = time.time()
-    elapsed = round((end - start) * 1000, 0)
-    print(f"Čas trvania výpočtu: {elapsed}ms")
-
     return render_template("analysis.html",
                            samples=selected_names,
                            raw=raw, z_score=z_score, l1=l1, min_max=min_max,
                            pearson=pearson, sam=sam)
 
-@main.route("/detail_analysis", methods=["GET", "POST"])
+@main.route("/detail_analysis", methods=["GET"])
 def detail_analysis():
     selected_names = request.args.getlist("selected")
 
@@ -60,7 +54,7 @@ def detail_analysis():
     name_a, name_b = selected_names[0], selected_names[1]
     residual = create_residual(l1, name_a, name_b)
 
-    zone_metrics = zones_coeffs(z_score, l1, min_max, name_a, name_b)
+    zone_metrics = zones_coeffs(l1, name_a, name_b)
 
     return render_template("detail.html",
                            samples=selected_names,
@@ -74,9 +68,8 @@ def upload_file():
         if not file or not file.filename.lower().endswith(".csv"):
             continue
         
-        if file.filename.lower().endswith(".csv"):
-            name = file.filename.removesuffix(".csv")
-            raw_data = parse_csv(file)
+        name = file.filename.removesuffix(".csv")
+        raw_data = parse_csv(file)
         
         if raw_data is not None: 
             data.add(name,

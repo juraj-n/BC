@@ -1,4 +1,4 @@
-import csv, io, statistics
+import csv, io
 import numpy as np
 
 ZONES = [
@@ -69,8 +69,8 @@ def z_score_normalize(data):
     if len(y_values) < 2:
         return data
     
-    mean = statistics.mean(y_values)
-    stdev = statistics.stdev(y_values)
+    mean = np.mean(y_values)
+    stdev = np.std(y_values, ddof=1)
 
     if stdev == 0:
         norm_y = [0 for _ in y_values]
@@ -190,7 +190,7 @@ def split_by_zones(data):
         }
     return result
 
-def zones_coeffs(z_score, l1, min_max, name_a, name_b):
+def zones_coeffs(l1, name_a, name_b):
     l1_zones_a = split_by_zones(l1[name_a])
     l1_zones_b = split_by_zones(l1[name_b])
 
